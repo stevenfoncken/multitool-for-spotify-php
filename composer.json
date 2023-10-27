@@ -3,17 +3,35 @@
     "description": "PHP command-line application that performs various tasks to enhance your Spotify experience",
     "type": "project",
     "license": "MIT",
+    "homepage": "https://github.com/stevenfoncken/multitool-for-spotify-php",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "stevenfoncken",
+            "email": "dev@stevenfoncken.de",
+            "homepage": "https://www.stevenfoncken.de",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "spotify", "php", "commandline"
+    ],
+    "support": {
+        "issues": "https://github.com/stevenfoncken/multitool-for-spotify-php/issues",
+        "source": "https://github.com/stevenfoncken/multitool-for-spotify-php",
+        "security": "https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/.github/SECURITY.md"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        }
+    },
     "autoload": {
         "psr-4": {
             "StevenFoncken\\MultiToolForSpotify\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "stevenfoncken",
-            "email": "dev@stevenfoncken.de"
-        }
-    ],
-    "minimum-stability": "stable",
     "require": {}
 }
