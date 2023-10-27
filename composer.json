@@ -1,0 +1,19 @@
+{
+    "name": "stevenfoncken/multitool-for-spotify-php",
+    "description": "PHP command-line application that performs various tasks to enhance your Spotify experience",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "StevenFoncken\\MultiToolForSpotify\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "stevenfoncken",
+            "email": "dev@stevenfoncken.de"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
