@@ -36,7 +36,9 @@
     "require": {
         "php": "8.2.*",
         "jwilsson/spotify-web-api-php": "^6.0",
-        "symfony/console": "^6.3"
+        "symfony/console": "^6.3",
+        "symfony/validator": "^6.3",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"
