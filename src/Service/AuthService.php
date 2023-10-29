@@ -50,6 +50,7 @@ class AuthService
             'state' => $state,
         ];
 
+
         return $this->spotifySession->getAuthorizeUrl($options);
     }
 
