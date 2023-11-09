@@ -9,9 +9,11 @@ if (!is_file($composerAutoload)) {
 require_once $composerAutoload;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
+use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use Dotenv\Dotenv;
@@ -79,13 +81,18 @@ $spotifyApi = new SpotifyWebAPI(
 
 // lazy-load commands
 $commandLoader = new FactoryCommandLoader([
-    'mtfsp:auth' => static function () use($spotifySession) {
+    'mtfsp:auth' => static function () use ($spotifySession): Command {
         return new AuthCommand(
             new AuthService($spotifySession)
         );
     },
-    'mtfsp:archive' => static function () use($spotifyApi) {
+    'mtfsp:archive' => static function () use ($spotifyApi): Command {
         return new ArchiveCommand(
+            new PlaylistService($spotifyApi)
+        );
+    },
+    'mtfsp:playground' => static function () use ($spotifyApi): Command {
+        return new PlaygroundCommand(
             new PlaylistService($spotifyApi)
         );
     },
