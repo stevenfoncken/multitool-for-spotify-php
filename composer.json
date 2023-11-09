@@ -40,7 +40,9 @@
         "ext-zlib": "*",
         "intervention/image": "^2.7",
         "jwilsson/spotify-web-api-php": "^6.0",
+        "parsecsv/php-parsecsv": "^1.3",
         "symfony/console": "^6.3",
+        "symfony/lock": "^6.3",
         "symfony/validator": "^6.3",
         "vlucas/phpdotenv": "^5.5"
     },

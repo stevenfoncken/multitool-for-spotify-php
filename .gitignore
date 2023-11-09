@@ -3,3 +3,4 @@
 /config/.env
 /config/access_token.txt
 /config/refresh_token.txt
+/config/playlists-to-archive.csv

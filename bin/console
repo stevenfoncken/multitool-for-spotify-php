@@ -11,7 +11,9 @@ require_once $composerAutoload;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
+use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
+use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use Dotenv\Dotenv;
 use SpotifyWebAPI\Request;
 use SpotifyWebAPI\Session;
@@ -68,16 +70,25 @@ $options = array(
 );
 
 $spotifyApi = new SpotifyWebAPI(
-        $options,
-        $spotifySession,
-        $spotifyRequest
+    $options,
+    $spotifySession,
+    $spotifyRequest
 );
 
 // ---
 
 // lazy-load commands
 $commandLoader = new FactoryCommandLoader([
-    'mtfsp:auth' => static function () use($spotifySession) { return new AuthCommand(new AuthService($spotifySession)); },
+    'mtfsp:auth' => static function () use($spotifySession) {
+        return new AuthCommand(
+            new AuthService($spotifySession)
+        );
+    },
+    'mtfsp:archive' => static function () use($spotifyApi) {
+        return new ArchiveCommand(
+            new PlaylistService($spotifyApi)
+        );
+    },
 ]);
 
 $application = new Application('Multi-Tool for Spotify - Console Application', '0.2.0'); // --version
