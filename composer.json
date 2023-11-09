@@ -25,7 +25,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.2.0"
+            "php": "8.2"
         }
     },
     "autoload": {
@@ -34,7 +34,11 @@
         }
     },
     "require": {
-        "php": "8.2.*",
+        "php": ">=8.2",
+        "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-zlib": "*",
+        "intervention/image": "^2.7",
         "jwilsson/spotify-web-api-php": "^6.0",
         "symfony/console": "^6.3",
         "symfony/validator": "^6.3",
