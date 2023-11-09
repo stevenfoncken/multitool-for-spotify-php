@@ -13,11 +13,19 @@ use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use Dotenv\Dotenv;
+use SpotifyWebAPI\Request;
 use SpotifyWebAPI\Session;
+use SpotifyWebAPI\SpotifyWebAPI;
+
+const CONFIG_DIR_PATH = __DIR__ . '/../config/';
+
+const ACCESS_TOKEN_PATH = CONFIG_DIR_PATH . 'access_token.txt';
+
+const REFRESH_TOKEN_PATH = CONFIG_DIR_PATH . 'refresh_token.txt';
 
 // ---
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../config/');
+$dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
 $dotenv
     ->required(['CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI'])
@@ -25,10 +33,40 @@ $dotenv
 
 // ---
 
+$spotifyRequest = new Request(
+    [
+        'curl_options' => [
+            CURLOPT_TIMEOUT => 60,
+        ]
+    ]
+);
+
+// ---
+
 $spotifySession = new Session(
     $_ENV['CLIENT_ID'],
     $_ENV['CLIENT_SECRET'],
-    $_ENV['REDIRECT_URI']
+    $_ENV['REDIRECT_URI'],
+    $spotifyRequest
+);
+
+$accessToken = file_get_contents(ACCESS_TOKEN_PATH);
+$refreshToken = file_get_contents(REFRESH_TOKEN_PATH);
+
+$spotifySession->setAccessToken($accessToken);
+$spotifySession->setRefreshToken($refreshToken);
+
+// ---
+
+$options = array(
+    'auto_refresh' => true,
+    'auto_retry' => true,
+);
+
+$spotifyApi = new SpotifyWebAPI(
+        $options,
+        $spotifySession,
+        $spotifyRequest
 );
 
 // ---
@@ -41,3 +79,11 @@ $commandLoader = new FactoryCommandLoader([
 $application = new Application('Multi-Tool for Spotify - Console Application', '0.2.0'); // --version
 $application->setCommandLoader($commandLoader);
 $application->run();
+
+// ---
+
+$newAccessToken = $spotifySession->getAccessToken();
+$newRefreshToken = $spotifySession->getRefreshToken();
+
+file_put_contents(ACCESS_TOKEN_PATH, $newAccessToken);
+file_put_contents(REFRESH_TOKEN_PATH, $newRefreshToken);
