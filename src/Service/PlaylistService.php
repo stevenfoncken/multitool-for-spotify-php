@@ -104,8 +104,15 @@ class PlaylistService
     public function deleteAllArchivedPlaylists(): void
     {
         foreach ($this->findAllArchivedPlaylists() as $archivedPlaylist) {
-            // TODO log $archivedPlaylist->description
             $this->spotifyApi->unfollowPlaylist($archivedPlaylist->id);
+
+            $this->logger->debug(
+                'Deleted archived playlist',
+                [
+                    'playlist_id'          => $archivedPlaylist->id,
+                    'playlist_description' => $archivedPlaylist->description,
+                ]
+            );
         }
     }
 
@@ -128,10 +135,14 @@ class PlaylistService
         string $newDescription = null,
         string $tracksSortOrder = null
     ): string {
-        // TODO log
+        $this->logger->debug('copyPlaylist: Start', ['playlist_id_orig' => $origPlaylistId]);
+
         // Get original playlist (metadata), if origPlaylist object is not passed to copyPlaylist()
         if ($origPlaylist === null) {
             $origPlaylist = $this->getPlaylistMetadata($origPlaylistId);
+            if ($origPlaylist === null) {
+                return 'Playlist not found';
+            }
         }
 
         // Defaults to origPlaylist values when no custom name or description is set
@@ -166,7 +177,15 @@ class PlaylistService
 
         $this->updatePlaylistCoverImage($newPlaylist->id, $origPlaylist->images[0]->url);
 
-        // TODO log
+        $this->logger->debug(
+            'copyPlaylist: Done',
+            [
+                'playlist_id_new'          => $newPlaylist->id,
+                'playlist_id_orig'         => $origPlaylistId,
+                'playlist_name_new'        => $newName,
+                'playlist_description_new' => $newDescription,
+            ]
+        );
 
 
         return $newPlaylist->id;
@@ -191,8 +210,13 @@ class PlaylistService
         string $tracksSortOrder = null,
         bool $alsoArchiveExtern = false,// TODO
     ): bool {
+        $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
+
         // Get original playlist (metadata)
         $origPlaylist = $this->getPlaylistMetadata($playlistId);
+        if ($origPlaylist === null) {
+            return false;
+        }
 
         if ($this->checkIfArchivedPlaylistChanged($origPlaylist->snapshot_id, $archivedPlaylists) === true) {
             $dateTime = new \DateTime();
@@ -200,13 +224,14 @@ class PlaylistService
             $currentWeek = $dateTime->format('W');
             $currentDate = $dateTime->format('d.m.Y H:i:s');
 
+            $nameSuffix = (($newNameSuffix !== '') ? $newNameSuffix : $origPlaylist->name);
             // PREFIX-YYYY-WW-SUFFIX or PLAYLIST_NAME
             $newPlaylistName = sprintf(
                 '%s-%d-%d-%s',
                 $newNamePrefix,
                 $currentYear,
                 $currentWeek,
-                (($newNameSuffix !== '') ? $newNameSuffix : $origPlaylist->name)
+                $nameSuffix
             );
 
             $newPlaylistDescription = sprintf(
@@ -218,7 +243,7 @@ class PlaylistService
                 $origPlaylist->snapshot_id
             );
 
-            $this->copyPlaylist(
+            $newPlaylistId = $this->copyPlaylist(
                 $playlistId,
                 $origPlaylist,
                 false,
@@ -227,13 +252,22 @@ class PlaylistService
                 $tracksSortOrder
             );
 
+            $this->logger->info(
+                'archivePlaylist: Done',
+                [
+                    'playlist_id_new'      => $newPlaylistId,
+                    'playlist_name_prefix' => $newNamePrefix,
+                    'playlist_name_year'   => $currentYear,
+                    'playlist_name_week'   => $currentWeek,
+                    'playlist_name_suffix' => $nameSuffix,
+                ]
+            );
 
-            // TODO log
+
             return true;
         }
 
 
-        // TODO log
         return false;
     }
 
@@ -254,15 +288,24 @@ class PlaylistService
                 preg_match($pattern, $playlist->description, $matches) &&
                 /* Snapshot ID*/ $matches[1] === $origPlaylistSnapshotId
             ) {
-                // Given playlist not changed to last archived version
-                // TODO log
+                $this->logger->debug(
+                    'Archived playlist not changed to last archived version',
+                    [
+                        'snapshot_id_orig'              => $origPlaylistSnapshotId,
+                        'playlist_description_archived' => $playlist->description,
+                    ]
+                );
+
                 return false;
             }
         }
 
+        $this->logger->debug(
+            'Archived playlist changed to last archived version',
+            ['snapshot_id_orig' => $origPlaylistSnapshotId]
+        );
 
-        // TODO log
-        // Given playlist CHANGED to last archived version.
+
         return true;
     }
 
@@ -274,9 +317,10 @@ class PlaylistService
      */
     public function updatePlaylistCoverImage(string $playlistId, string $imagePath): void
     {
+        $this->logger->debug('updatePlaylistCoverImage: Start', ['playlist_id' => $playlistId]);
+
         for ($retryCount = 0; $retryCount < 3; $retryCount++) {
             try {
-                // TODO log IMAGE_START
                 $origCoverImageData = file_get_contents($imagePath);
                 $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
                 $mimeType = $fileInfo->buffer($origCoverImageData);
@@ -290,15 +334,16 @@ class PlaylistService
                         $this->spotifyApi->updatePlaylistImage($playlistId, base64_encode(\gzdecode($origCoverImageData)));
                         break;
                 }
-                // TODO log IMAGE_DONE
+                $this->logger->debug('updatePlaylistCoverImage: Done', ['playlist_id' => $playlistId]);
 
                 // If no exception thrown
                 break;
             } catch (SpotifyWebAPIException $e) {
-                // TODO log
-                // echo "Caught SpotifyWebAPIException with status code: " . $e->getCode() . "\n";
-                // echo "Exception message: " . $e->getMessage() . "\n";
-                // echo "Retrying (Attempt " . ($retryCount + 1) . ")\n";
+                $this->logger->error(
+                    'updatePlaylistCoverImage: Caught SpotifyWebAPIException: ' . $e->getMessage(),
+                    ['exception' => $e]
+                );
+                $this->logger->error('updatePlaylistCoverImage: Retrying', ['attempt' => ($retryCount + 1)]);
                 sleep(1);
             }
         }
@@ -317,26 +362,50 @@ class PlaylistService
         $idOfNewPlaylist = $newPlaylist->id;
         $descriptionOfNewPlaylist = $newPlaylist->description;
 
-        // TODO log SHOULD PLAYLIST DESC: $shouldDescription
-        // TODO log IS PLAYLIST DESC: $newPlaylist->description
+        $this->logger->debug(
+            'checkIfPlaylistDescriptionSetCorrectly: Start',
+            [
+                'should_playlist_desc' => $shouldDescription,
+                'is_playlist_desc'     => $newPlaylist->description,
+            ]
+        );
+
         while ($descriptionOfNewPlaylist === true || empty($descriptionOfNewPlaylist)) {
             $this->spotifyApi->updatePlaylist($idOfNewPlaylist, ['description' => $shouldDescription]);
             $descriptionOfNewPlaylist = $this->getPlaylistMetadata($idOfNewPlaylist)->description;
-            // TODO log NEW PLAYLIST DESC: $descriptionOfNewPlaylist . ' ' . gettype($descriptionOfNewPlaylist)
+            $this->logger->debug(
+                'checkIfPlaylistDescriptionSetCorrectly: Updated',
+                ['new_playlist_desc' => $descriptionOfNewPlaylist]
+            );
             usleep(20000);
         }
+
+        $this->logger->debug('checkIfPlaylistDescriptionSetCorrectly: Done');
     }
 
     /**
      * @param string $playlistId
      *
-     * @return object
+     * @return object|null
      */
-    public function getPlaylistMetadata(string $playlistId): object
+    public function getPlaylistMetadata(string $playlistId): object|null
     {
-        return $this->spotifyApi->getPlaylist(
-            $playlistId,
-            ['fields' => 'id,name,description,owner.display_name,snapshot_id,images']
-        );
+        try {
+            return $this->spotifyApi->getPlaylist(
+                $playlistId,
+                ['fields' => 'id,name,description,owner.display_name,snapshot_id,images']
+            );
+        } catch (SpotifyWebAPIException $e) {
+            $this->logger->error(
+                'Caught SpotifyWebAPIException: ' . $e->getMessage(),
+                [
+                    'playlist_id' => $playlistId,
+                    'exception'   => $e,
+                ]
+            );
+        }
+
+
+        return null;
     }
 }
