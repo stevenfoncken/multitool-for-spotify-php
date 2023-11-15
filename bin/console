@@ -8,6 +8,17 @@ if (!is_file($composerAutoload)) {
 
 require_once $composerAutoload;
 
+use Dotenv\Dotenv;
+use SpotifyWebAPI\Request;
+use SpotifyWebAPI\Session;
+use SpotifyWebAPI\SpotifyWebAPI;
+use Monolog\Level;
+use Monolog\Logger;
+use Monolog\ErrorHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Processor\UidProcessor;
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\RotatingFileHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
@@ -16,10 +27,9 @@ use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
 use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
-use Dotenv\Dotenv;
-use SpotifyWebAPI\Request;
-use SpotifyWebAPI\Session;
-use SpotifyWebAPI\SpotifyWebAPI;
+use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
+
+const LOG_DIR_PATH = __DIR__ . '/../var/log/';
 
 const CONFIG_DIR_PATH = __DIR__ . '/../config/';
 
@@ -31,13 +41,29 @@ const REFRESH_TOKEN_PATH = CONFIG_DIR_PATH . 'refresh_token.txt';
 
 $dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
-$dotenv
-    ->required(['CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI'])
-    ->notEmpty();
+$dotenv->required(['DEBUG', 'CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI'])->notEmpty();
+$dotenv->required('DEBUG')->isBoolean();
 
 // ---
 
 date_default_timezone_set($_ENV['TIMEZONE']);
+
+// ---
+
+// Init monolog
+$logLevel = $_ENV['DEBUG'] ? Level::Debug : Level::Info;
+
+$uidProcessor = new UidProcessor(16);
+
+$rotatingFileHandler = new RotatingFileHandler(LOG_DIR_PATH . 'mtfsp.log', 16, $logLevel);
+
+$archivedPlaylistsHandler = new ArchivedPlaylistsHandler(
+        new StreamHandler(LOG_DIR_PATH . 'archived_playlists.log', $logLevel)
+);
+$archivedPlaylistsHandler->setFormatter(new JsonFormatter());
+
+$logger = new Logger('mtfsp', [$rotatingFileHandler, $archivedPlaylistsHandler], [$uidProcessor]);
+ErrorHandler::register($logger);
 
 // ---
 

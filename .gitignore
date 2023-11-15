@@ -4,3 +4,6 @@
 /config/access_token.txt
 /config/refresh_token.txt
 /config/playlists-to-archive.csv
+/config/dev_playlists-to-archive.csv
+
+/var/log/
