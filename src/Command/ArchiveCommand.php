@@ -67,6 +67,8 @@ class ArchiveCommand extends Command
             return Command::SUCCESS;
         }
 
+        $this->logger->info('Archive process: Start');
+
         // ---
 
         $playlistIDsOrCsvArg = $input->getArgument('playlistIDsOrCsv');
@@ -147,6 +149,7 @@ class ArchiveCommand extends Command
         $io->newLine();
         $io->magenta('New archived playlists: ' . $newArchivedPlaylistsCount);
         $io->success('Done.');
+        $this->logger->info('Archive process: Done');
 
 
         return Command::SUCCESS;
