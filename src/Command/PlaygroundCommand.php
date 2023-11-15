@@ -47,6 +47,7 @@ class PlaygroundCommand extends Command
         $io->text(
             $this->playlistService->getPlaylistMetadata('5aHawERps0AMmMLU1KHvv6')->name
         );
+        $this->logger->info('PlaygroundCommand log');
 
 
         return Command::SUCCESS;
