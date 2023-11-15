@@ -112,19 +112,22 @@ $commandLoader = new FactoryCommandLoader([
             new AuthService($spotifySession)
         );
     },
-    'mtfsp:archive' => static function () use ($spotifyApi): Command {
+    'mtfsp:archive' => static function () use ($logger, $spotifyApi): Command {
         return new ArchiveCommand(
-            new PlaylistService($spotifyApi)
+            $logger->withName('archive_command'),
+            new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
         );
     },
-    'mtfsp:playground' => static function () use ($spotifyApi): Command {
+    'mtfsp:playground' => static function () use ($logger, $spotifyApi): Command {
         return new PlaygroundCommand(
-            new PlaylistService($spotifyApi)
+            $logger->withName('playground_command'),
+            new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
         );
     },
 ]);
 
 $application = new Application('Multi-Tool for Spotify - Console Application', '0.2.0'); // --version
+$application->setCatchExceptions(false);
 $application->setCommandLoader($commandLoader);
 $application->run();
 

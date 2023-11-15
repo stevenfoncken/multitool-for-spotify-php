@@ -2,6 +2,7 @@
 
 namespace StevenFoncken\MultiToolForSpotify\Command;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,9 +31,11 @@ class ArchiveCommand extends Command
     use LockableTrait;
 
     /**
+     * @param LoggerInterface $logger
      * @param PlaylistService $playlistService
      */
     public function __construct(
+        private LoggerInterface $logger,
         private readonly PlaylistService $playlistService
     ) {
         parent::__construct();

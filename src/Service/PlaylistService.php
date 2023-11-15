@@ -2,6 +2,7 @@
 
 namespace StevenFoncken\MultiToolForSpotify\Service;
 
+use Psr\Log\LoggerInterface;
 use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\SpotifyWebAPIException;
 use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
@@ -17,10 +18,12 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PlaylistService
 {
     /**
-     * @param SpotifyWebAPI $spotifyApi
+     * @param SpotifyWebAPI   $spotifyApi
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        private readonly SpotifyWebAPI $spotifyApi
+        private readonly SpotifyWebAPI $spotifyApi,
+        private LoggerInterface $logger
     ) {
     }
 
