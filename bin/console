@@ -56,6 +56,8 @@ $logLevel = $_ENV['DEBUG'] === 'true' ? Level::Debug : Level::Info;
 
 $uidProcessor = new UidProcessor(16);
 
+$errorToConsoleHandler = new StreamHandler('php://stderr', Level::Error);
+
 $rotatingFileHandler = new RotatingFileHandler(LOG_DIR_PATH . 'mtfsp.log', 16, $logLevel);
 
 $archivedPlaylistsHandler = new ArchivedPlaylistsHandler(
@@ -63,7 +65,7 @@ $archivedPlaylistsHandler = new ArchivedPlaylistsHandler(
 );
 $archivedPlaylistsHandler->setFormatter(new JsonFormatter());
 
-$logger = new Logger('mtfsp', [$rotatingFileHandler, $archivedPlaylistsHandler], [$uidProcessor]);
+$logger = new Logger('mtfsp', [$errorToConsoleHandler, $rotatingFileHandler, $archivedPlaylistsHandler], [$uidProcessor]);
 ErrorHandler::register($logger);
 
 // ---
