@@ -16,7 +16,7 @@ use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
- * A console command that archive playlists based on passed playlist Ids.
+ * Console command that archive playlists based on passed playlist Ids.
  *
  * @author Steven Foncken <dev@stevenfoncken.de>
  * @copyright ^
@@ -103,8 +103,6 @@ class ArchiveCommand extends Command
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('custom');
         $progressBar->setMessage('', 'playlist_id');
-
-        // TODO log
 
         $newArchivedPlaylistsCount = 0;
         if (strpos($playlistIDsOrCsvArg, ',') !== false) {

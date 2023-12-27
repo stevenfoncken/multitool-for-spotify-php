@@ -6,7 +6,7 @@ use Monolog\LogRecord;
 use Monolog\Handler\HandlerWrapper;
 
 /**
- * A HandlerWrapper that adds custom filtering so that only archive playlist creation is logged.
+ * HandlerWrapper that adds custom filtering so that only archive playlist creation is logged.
  * It can be applied to other handlers e.g. StreamHandler.
  *
  * @author Steven Foncken <dev@stevenfoncken.de>

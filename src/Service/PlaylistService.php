@@ -149,8 +149,6 @@ class PlaylistService
         $newName = ($newName ?? $origPlaylist->name);
         $newDescription = ($newDescription ?? $origPlaylist->description);
 
-        // ---
-
         // Create new playlist
         $newPlaylist = $this->spotifyApi->createPlaylist(
             $this->spotifyApi->me()->id,
@@ -161,19 +159,16 @@ class PlaylistService
             ]
         );
 
-        // ---
-
         $this->checkIfPlaylistDescriptionSetCorrectly($newPlaylist, $newDescription);
 
-        // ---
-
         // Copy tracks to newPlaylist
-        $tracksFromOrigPlaylistChunked = array_chunk($this->getAllTracksIdsFromPlaylist($origPlaylist->id, $tracksSortOrder), 99);
+        $tracksFromOrigPlaylistChunked = array_chunk(
+            $this->getAllTracksIdsFromPlaylist($origPlaylist->id, $tracksSortOrder),
+            99
+        );
         foreach ($tracksFromOrigPlaylistChunked as $trackChunk) {
             $this->spotifyApi->addPlaylistTracks($newPlaylist->id, $trackChunk);
         }
-
-        // ---
 
         $this->updatePlaylistCoverImage($newPlaylist->id, $origPlaylist->images[0]->url);
 
@@ -272,7 +267,8 @@ class PlaylistService
     }
 
     /**
-     * Checks the snapshot_id in the archived playlist description.
+     * Searches for the given snapshot_id in the description of all archived playlists to determine if the already
+     * archived playlist changed in its current version.
      *
      * @param string $origPlaylistSnapshotId
      * @param array  $archivedPlaylists
@@ -283,16 +279,16 @@ class PlaylistService
     {
         $pattern = '/Orig. Snapshot ID: (.*)/';
 
-        foreach ($archivedPlaylists as $playlist) {
+        foreach ($archivedPlaylists as $archivedPlaylist) {
             if (
-                preg_match($pattern, $playlist->description, $matches) &&
+                preg_match($pattern, $archivedPlaylist->description, $matches) &&
                 /* Snapshot ID*/ $matches[1] === $origPlaylistSnapshotId
             ) {
                 $this->logger->debug(
                     'Archived playlist not changed to last archived version',
                     [
                         'snapshot_id_orig'              => $origPlaylistSnapshotId,
-                        'playlist_description_archived' => $playlist->description,
+                        'playlist_description_archived' => $archivedPlaylist->description,
                     ]
                 );
 

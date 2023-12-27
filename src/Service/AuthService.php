@@ -19,9 +19,9 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
  */
 class AuthService
 {
-    private const ACCESS_TOKEN_PATH = __DIR__ . '/../../config/access_token.txt';
+    private const ACCESS_TOKEN_PATH = __DIR__ . '/../../config/.access_token';
 
-    private const REFRESH_TOKEN_PATH = __DIR__ . '/../../config/refresh_token.txt';
+    private const REFRESH_TOKEN_PATH = __DIR__ . '/../../config/.refresh_token';
 
     /**
      * @param Session $spotifySession

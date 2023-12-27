@@ -11,7 +11,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 
 /**
- * A console command that leverage the AuthService.
+ * Console command that leverage the AuthService.
  *
  * @author Steven Foncken <dev@stevenfoncken.de>
  * @copyright ^

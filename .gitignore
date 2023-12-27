@@ -1,8 +1,8 @@
 /vendor/
 
 /config/.env
-/config/access_token.txt
-/config/refresh_token.txt
+/config/.access_token
+/config/.refresh_token
 /config/playlists-to-archive.csv
 /config/dev_playlists-to-archive.csv
 
