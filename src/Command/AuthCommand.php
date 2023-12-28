@@ -65,7 +65,7 @@ class AuthCommand extends Command
         $callbackUrlQuestion->setMaxAttempts(2);
 
         $callbackURL = $io->askQuestion($callbackUrlQuestion);
-        $this->authService->generateApiTokens($callbackURL);
+        $this->authService->saveApiTokens($callbackURL);
 
         // ---
 

@@ -53,7 +53,7 @@ class AuthService
      *
      * @return void
      */
-    public function generateApiTokens(string $callbackURL): void
+    public function saveApiTokens(string $callbackURL): void
     {
         parse_str(parse_url($callbackURL)['query'], $queryParameters);
         $callbackAuthorizationCode = $queryParameters['code'];
