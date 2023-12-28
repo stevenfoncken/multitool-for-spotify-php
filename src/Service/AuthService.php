@@ -5,7 +5,7 @@ namespace StevenFoncken\MultiToolForSpotify\Service;
 use SpotifyWebAPI\Session;
 
 /**
- * Service for AuthCommand, it handles the Spotify OAuth process & API Token generation.
+ * Service for AuthCommand that contains the logic for the Spotify OAuth process & API token generation.
  *
  * @author Steven Foncken <dev@stevenfoncken.de>
  * @copyright ^

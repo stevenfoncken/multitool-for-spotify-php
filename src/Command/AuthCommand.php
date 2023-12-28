@@ -17,7 +17,7 @@ use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
 
 /**
- * Console command that leverage the AuthService.
+ * Console command that handles the Spotify OAuth process & API token generation.
  *
  * @author Steven Foncken <dev@stevenfoncken.de>
  * @copyright ^
@@ -25,7 +25,7 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
  */
 #[AsCommand(
     name: 'mtfsp:auth',
-    description: 'Handles the Spotify OAuth process & API Token generation.',
+    description: 'Handles the Spotify OAuth process & API token generation.',
 )]
 class AuthCommand extends Command
 {
