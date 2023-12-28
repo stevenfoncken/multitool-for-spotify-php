@@ -2,13 +2,7 @@
 
 namespace StevenFoncken\MultiToolForSpotify\Service;
 
-use RuntimeException;
 use SpotifyWebAPI\Session;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Validator\Constraints\Url;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
 
 /**
  * Service for AuthCommand, it handles the Spotify OAuth process & API Token generation.
@@ -52,52 +46,6 @@ class AuthService
 
 
         return $this->spotifySession->getAuthorizeUrl($options);
-    }
-
-    /**
-     * @return Question
-     */
-    public function generateCallbackUrlQuestion(): Question
-    {
-        $question = new Question('Please paste the callback URL here');
-        $validator = Validation::createValidator();
-
-        $question->setValidator(function ($answer) use ($validator): string {
-            // Validate against the NotBlank constraint
-            $notBlankViolations = $validator->validate($answer, new NotBlank());
-
-            if (count($notBlankViolations) > 0) {
-                throw new RuntimeException(
-                    $notBlankViolations[0]->getMessage()
-                );
-            }
-
-            // Validate against the Url constraint
-            $urlViolations = $validator->validate($answer, new Url());
-
-            if (count($urlViolations) > 0) {
-                throw new RuntimeException(
-                    $urlViolations[0]->getMessage()
-                );
-            }
-
-            // Validate against the UrlContainsQueryParameter constraint
-            $urlContainsQueryParameterViolations = $validator->validate(
-                $answer,
-                new UrlContainsQueryParameter(['code', 'state'])
-            );
-
-            if (count($urlContainsQueryParameterViolations) > 0) {
-                throw new RuntimeException(
-                    $urlContainsQueryParameterViolations[0]->getMessage()
-                );
-            }
-
-            return $answer;
-        });
-
-
-        return $question;
     }
 
     /**
