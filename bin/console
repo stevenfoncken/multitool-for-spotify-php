@@ -42,7 +42,7 @@ const REFRESH_TOKEN_PATH = CONFIG_DIR_PATH . '.refresh_token';
 // Init envloader
 $dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
-$dotenv->required(['DEBUG', 'CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI'])->notEmpty();
+$dotenv->required(['DEBUG', 'CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI', 'MAILER_DSN', 'FROM_MAIL', 'TO_MAIL'])->notEmpty();
 $dotenv->required('DEBUG')->isBoolean();
 
 // ---
