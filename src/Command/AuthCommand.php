@@ -25,7 +25,7 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
  */
 #[AsCommand(
     name: 'mtfsp:auth',
-    description: 'Handles the Spotify OAuth process & API token generation.',
+    description: 'Handles the Spotify OAuth process & API token generation',
 )]
 class AuthCommand extends Command
 {

@@ -26,7 +26,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
  */
 #[AsCommand(
     name: 'mtfsp:archive',
-    description: 'Archive playlists from CSV or argument input.',
+    description: 'Archive playlists from CSV or argument input',
 )]
 class ArchiveCommand extends Command
 {
