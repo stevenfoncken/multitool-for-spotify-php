@@ -48,7 +48,7 @@ class AuthCommand extends Command
     {
         $io = new CustomStyle($input, $output);
 
-        // switch 'ask' color to magenta
+        // Switch 'ask' color to magenta
         $outputStyle = new OutputFormatterStyle('magenta');
         $io->getFormatter()->setStyle('info', $outputStyle);
 
@@ -78,7 +78,7 @@ class AuthCommand extends Command
     /**
      * @return Question
      */
-    public function generateCallbackUrlQuestion(): Question
+    private function generateCallbackUrlQuestion(): Question
     {
         $question = new Question('Please paste the callback URL here');
         $validator = Validation::createValidator();
