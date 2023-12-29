@@ -24,6 +24,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
+use StevenFoncken\MultiToolForSpotify\Command\ListArchivedPlaylistsCommand;
 use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
@@ -134,6 +135,11 @@ $commandLoader = new FactoryCommandLoader(
                         LAST_RUN_LOG_PATH,
                         $logger->withName('mail_service')
                 )
+            );
+        },
+        'mtfsp:archive:list-playlists' => static function () use ($logger, $spotifyApi): Command {
+            return new ListArchivedPlaylistsCommand(
+                new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
             );
         },
         'mtfsp:playground' => static function () use ($logger, $spotifyApi): Command {
