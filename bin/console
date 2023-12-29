@@ -37,6 +37,8 @@ const ACCESS_TOKEN_PATH = CONFIG_DIR_PATH . '.access_token';
 
 const REFRESH_TOKEN_PATH = CONFIG_DIR_PATH . '.refresh_token';
 
+const LAST_RUN_LOG_PATH = LOG_DIR_PATH . 'last_run.log';
+
 // ---
 
 // Init envloader
@@ -65,7 +67,10 @@ $archivedPlaylistsHandler = new ArchivedPlaylistsHandler(
 );
 $archivedPlaylistsHandler->setFormatter(new JsonFormatter());
 
-$logger = new Logger('mtfsp', [$errorToConsoleHandler, $rotatingFileHandler, $archivedPlaylistsHandler], [$uidProcessor]);
+file_put_contents(LAST_RUN_LOG_PATH, ''); // Clear last_run log
+$currentRunHandler = new StreamHandler(LAST_RUN_LOG_PATH, Level::Info);
+
+$logger = new Logger('mtfsp', [$errorToConsoleHandler, $rotatingFileHandler, $archivedPlaylistsHandler, $currentRunHandler], [$uidProcessor]);
 ErrorHandler::register($logger);
 
 // ---
