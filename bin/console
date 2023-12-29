@@ -27,6 +27,7 @@ use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
 use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
+use StevenFoncken\MultiToolForSpotify\Service\MailService;
 use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
 
 const LOG_DIR_PATH = __DIR__ . '/../var/log/';
@@ -125,7 +126,14 @@ $commandLoader = new FactoryCommandLoader(
         'mtfsp:archive' => static function () use ($logger, $spotifyApi): Command {
             return new ArchiveCommand(
                 $logger->withName('archive_command'),
-                new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
+                new PlaylistService($spotifyApi, $logger->withName('playlist_service')),
+                new MailService(
+                        $_ENV['MAILER_DSN'],
+                        $_ENV['FROM_MAIL'],
+                        $_ENV['TO_MAIL'],
+                        LAST_RUN_LOG_PATH,
+                        $logger->withName('mail_service')
+                )
             );
         },
         'mtfsp:playground' => static function () use ($logger, $spotifyApi): Command {

@@ -8,11 +8,13 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use StevenFoncken\MultiToolForSpotify\Helper\CsvHelper;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
+use StevenFoncken\MultiToolForSpotify\Service\MailService;
 use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
@@ -33,10 +35,12 @@ class ArchiveCommand extends Command
     /**
      * @param LoggerInterface $logger
      * @param PlaylistService $playlistService
+     * @param MailService     $mailService
      */
     public function __construct(
         private LoggerInterface $logger,
-        private readonly PlaylistService $playlistService
+        private readonly PlaylistService $playlistService,
+        private readonly MailService $mailService
     ) {
         parent::__construct();
     }
@@ -46,11 +50,18 @@ class ArchiveCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addArgument(
-            'playlistIDsOrCsv',
-            InputArgument::REQUIRED,
-            'Comma-separated playlist Ids or CSV (Playlist_Name_Prefix;Playlist_Name_Suffix;Playlist_Sort_Order;Playlist_Id;Tags)'
-        );
+        $this
+            ->addArgument(
+                'playlistIDsOrCsv',
+                InputArgument::REQUIRED,
+                'Comma-separated playlist Ids or CSV (Playlist_Name_Prefix;Playlist_Name_Suffix;Playlist_Sort_Order;Playlist_Id;Tags)'
+            )
+            ->addOption(
+                'mail',
+                null,
+                InputOption::VALUE_NONE,
+                'Mail the logs generated from the run (config in .env)',
+            );
     }
 
     /**
@@ -58,6 +69,7 @@ class ArchiveCommand extends Command
      * @param OutputInterface $output
      *
      * @return int
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -72,6 +84,7 @@ class ArchiveCommand extends Command
         // ---
 
         $playlistIDsOrCsvArg = $input->getArgument('playlistIDsOrCsv');
+        $mailLastRunLogs = $input->getOption('mail');
         $io = new CustomStyle($input, $output);
 
         // ---
@@ -147,7 +160,16 @@ class ArchiveCommand extends Command
         $io->newLine();
         $io->magenta('New archived playlists: ' . $newArchivedPlaylistsCount);
         $io->success('Done.');
-        $this->logger->info('Archive process: Done');
+        $this->logger->info('Archive process: Done', ['archived_playlists' => $newArchivedPlaylistsCount]);
+
+        if ($mailLastRunLogs) {
+            $mailSubject = sprintf(
+                'Spotify playlists archived %s',
+                date('W/o')
+            );
+
+            $this->mailService->sendLastRunLogsMail($mailSubject);
+        }
 
 
         return Command::SUCCESS;
