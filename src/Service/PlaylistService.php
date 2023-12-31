@@ -284,7 +284,7 @@ class PlaylistService
                 preg_match($pattern, $archivedPlaylist->description, $matches) &&
                 /* Snapshot ID*/ $matches[1] === $origPlaylistSnapshotId
             ) {
-                $this->logger->debug(
+                $this->logger->info(
                     'Archived playlist not changed to last archived version',
                     [
                         'snapshot_id_orig'              => $origPlaylistSnapshotId,
@@ -296,7 +296,7 @@ class PlaylistService
             }
         }
 
-        $this->logger->debug(
+        $this->logger->info(
             'Archived playlist changed to last archived version',
             ['snapshot_id_orig' => $origPlaylistSnapshotId]
         );
