@@ -164,7 +164,7 @@ class ArchiveCommand extends Command
 
         if ($mailLastRunLogs) {
             $mailSubject = sprintf(
-                'Spotify playlists archived %s',
+                'MTFSP - Playlists archived %s',
                 date('W/o')
             );
 
