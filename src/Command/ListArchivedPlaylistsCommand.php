@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
+use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
  * Console command that lists archived playlists.
@@ -39,14 +40,21 @@ class ListArchivedPlaylistsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new CustomStyle($input, $output);
+
         $table = new Table($output);
         $table->setHeaders(['Name', 'URL']);
 
+        $rows = [];
         foreach ($this->playlistService->findAllArchivedPlaylists() as $playlist) {
-            $table->addRow([$playlist->name, $playlist->external_urls->spotify]);
+            $rows = $table->addRow([$playlist->name, $playlist->external_urls->spotify]);
         }
 
-        $table->render();
+        if (empty($rows) === false) {
+            $table->render();
+        } else {
+            $io->magenta('No archived playlists found.');
+        }
 
 
         return Command::SUCCESS;

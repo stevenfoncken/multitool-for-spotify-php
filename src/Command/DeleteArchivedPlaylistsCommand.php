@@ -76,8 +76,13 @@ class DeleteArchivedPlaylistsCommand extends Command
         $table = new Table($section);
         $table->setHeaders(['Deleted playlists']);
 
+        $rows = [];
         foreach ($this->playlistService->deleteAllArchivedPlaylists() as $deletedPlaylist) {
-            $table->appendRow([$deletedPlaylist->name]);
+            $rows = $table->appendRow([$deletedPlaylist->name]);
+        }
+
+        if (empty($rows)) {
+            $io->magenta('No archived playlists found.');
         }
 
         $this->logger->info('Archived playlist deletion process: Done');
