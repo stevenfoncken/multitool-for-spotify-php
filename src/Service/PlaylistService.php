@@ -101,9 +101,11 @@ class PlaylistService
     /**
      * @return void
      */
-    public function deleteAllArchivedPlaylists(): void
+    public function deleteAllArchivedPlaylists(): iterable
     {
         foreach ($this->findAllArchivedPlaylists() as $archivedPlaylist) {
+            yield $archivedPlaylist;
+
             $this->spotifyApi->unfollowPlaylist($archivedPlaylist->id);
 
             $this->logger->debug(
