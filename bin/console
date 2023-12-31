@@ -25,6 +25,7 @@ use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ListArchivedPlaylistsCommand;
+use StevenFoncken\MultiToolForSpotify\Command\DeleteArchivedPlaylistsCommand;
 use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
@@ -139,6 +140,12 @@ $commandLoader = new FactoryCommandLoader(
         },
         'mtfsp:archive:list-playlists' => static function () use ($logger, $spotifyApi): Command {
             return new ListArchivedPlaylistsCommand(
+                new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
+            );
+        },
+        'mtfsp:archive:delete-playlists' => static function () use ($logger, $spotifyApi): Command {
+            return new DeleteArchivedPlaylistsCommand(
+                $logger->withName('delete-archived-playlists_command'),
                 new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
             );
         },
