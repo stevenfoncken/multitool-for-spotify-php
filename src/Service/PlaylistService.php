@@ -224,7 +224,7 @@ class PlaylistService
             $nameSuffix = (($newNameSuffix !== '') ? $newNameSuffix : $origPlaylist->name);
             // PREFIX-YYYY-WW-SUFFIX or PLAYLIST_NAME
             $newPlaylistName = sprintf(
-                '%s-%d-%d-%s',
+                '%s-%s-%s-%s',
                 $newNamePrefix,
                 $currentYear,
                 $currentWeek,
