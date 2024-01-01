@@ -47,8 +47,18 @@ const LAST_RUN_LOG_PATH = LOG_DIR_PATH . 'last_run.log';
 // Init envloader
 $dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
-$dotenv->required(['DEBUG', 'CLIENT_ID', 'CLIENT_SECRET', 'REDIRECT_URI', 'MAILER_DSN', 'FROM_MAIL', 'TO_MAIL'])->notEmpty();
-$dotenv->required('DEBUG')->isBoolean();
+$dotenv->required(
+        [
+            'DEBUG_MODE',
+            'SPOTIFY_API_CLIENT_ID',
+            'SPOTIFY_API_CLIENT_SECRET',
+            'SPOTIFY_API_REDIRECT_URI',
+            'MAILER_DSN',
+            'FROM_MAIL',
+            'TO_MAIL',
+        ]
+)->notEmpty();
+$dotenv->required('DEBUG_MODE')->isBoolean();
 
 // ---
 
@@ -57,7 +67,7 @@ date_default_timezone_set($_ENV['TIMEZONE']);
 // ---
 
 // Init monolog
-$logLevel = $_ENV['DEBUG'] === 'true' ? Level::Debug : Level::Info;
+$logLevel = $_ENV['DEBUG_MODE'] === 'true' ? Level::Debug : Level::Info;
 
 $uidProcessor = new UidProcessor(16);
 
@@ -90,9 +100,9 @@ $spotifyRequest = new Request(
 // -
 
 $spotifySession = new Session(
-    $_ENV['CLIENT_ID'],
-    $_ENV['CLIENT_SECRET'],
-    $_ENV['REDIRECT_URI'],
+    $_ENV['SPOTIFY_API_CLIENT_ID'],
+    $_ENV['SPOTIFY_API_CLIENT_SECRET'],
+    $_ENV['SPOTIFY_API_REDIRECT_URI'],
     $spotifyRequest
 );
 
