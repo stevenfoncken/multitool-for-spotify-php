@@ -81,21 +81,78 @@ class PlaylistService
     }
 
     /**
+     * @param bool $selfCreated
+     * @param bool $archived
+     * @param bool $archivedLegacy
+     *
+     * @return iterable
+     */
+    public function getAllUserPlaylists(
+        bool $selfCreated = true,
+        bool $archived = true,
+        bool $archivedLegacy = false
+    ): iterable {
+        $archivedPlaylistDescriptionPattern = '/Archive Playlist: (.*?) \| Orig. Playlist Name: (.*?) \| Orig. Playlist Owner: (.*?) \| Orig. Playlist ID: (.*?) \| Orig. Snapshot ID: (.*?)/';
+        $archivedPlaylistNamePatternLegacy = '/^[A-Za-z]+-\d{4}-\d{2}-[A-Za-z]+\(\d{2}\.\d{2}\) .*/';
+        $userId = $this->spotifyApi->me()->id;
+
+        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMyPlaylists', 50) as $playlist) {
+            if ($playlist->owner->id !== $userId) {
+                continue;
+            }
+
+            $isArchived = (bool) preg_match($archivedPlaylistDescriptionPattern, $playlist->description);
+            if (
+                $archived &&
+                $isArchived
+            ) {
+                yield $playlist;
+            }
+
+            $isArchivedLegacy = (bool) preg_match($archivedPlaylistNamePatternLegacy, $playlist->name);
+            if (
+                $archivedLegacy &&
+                $isArchivedLegacy
+            ) {
+                yield $playlist;
+            }
+
+            if (
+                $selfCreated &&
+                $isArchived === false &&
+                $isArchivedLegacy === false
+            ) {
+                yield $playlist;
+            }
+        }
+    }
+
+    /**
      * @return array
      */
     public function findAllArchivedPlaylists(): array
     {
-        $pattern = '/Archive Playlist: (.*?) \| Orig. Playlist Name: (.*?) \| Orig. Playlist Owner: (.*?) \| Orig. Playlist ID: (.*?) \| Orig. Snapshot ID: (.*?)/';
-
         $foundArchivedPlaylists = [];
-        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMyPlaylists', 50) as $playlist) {
-            if (preg_match($pattern, $playlist->description)) {
-                $foundArchivedPlaylists[] = $playlist;
-            }
+        foreach ($this->getAllUserPlaylists(false, true) as $playlist) {
+            $foundArchivedPlaylists[] = $playlist;
         }
 
 
         return $foundArchivedPlaylists;
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllSelfCreatedPlaylists(): array
+    {
+        $foundSelfCreatedPlaylists = [];
+        foreach ($this->getAllUserPlaylists(true, false) as $playlist) {
+            $foundSelfCreatedPlaylists[] = $playlist;
+        }
+
+
+        return $foundSelfCreatedPlaylists;
     }
 
     /**
