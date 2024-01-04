@@ -55,7 +55,7 @@ class SpotifyApiHelper
         $parameters = [];
         $offset = 0;
         $options = [
-            'offset' => 0,
+            'offset' => $offset,
             'limit'  => $limit,
             'fields' => $fields,
         ];
@@ -70,9 +70,8 @@ class SpotifyApiHelper
         while (true) {
             if ($offset > 0) {
                 $options['offset'] = $offset;
-            } else {
-                $options['offset'] = 0;
             }
+
             $parameters[1] = $options;
             $apiResult = $spotifyApi->{$apiEndpoint}(...array_values($parameters));
 
@@ -81,6 +80,7 @@ class SpotifyApiHelper
             }
 
             if (isset($apiResult->next)) {
+                //break; //TODO debug
                 $offset = self::getOffsetFromNext($apiResult->next);
             } else {
                 break;
