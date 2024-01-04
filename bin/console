@@ -26,9 +26,11 @@ use StevenFoncken\MultiToolForSpotify\Command\AuthCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ArchiveCommand;
 use StevenFoncken\MultiToolForSpotify\Command\ListArchivedPlaylistsCommand;
 use StevenFoncken\MultiToolForSpotify\Command\DeleteArchivedPlaylistsCommand;
+use StevenFoncken\MultiToolForSpotify\Command\SearchTrackInLibraryCommand;
 use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
+use StevenFoncken\MultiToolForSpotify\Service\TrackService;
 use StevenFoncken\MultiToolForSpotify\Service\MailService;
 use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
 
@@ -92,7 +94,7 @@ ErrorHandler::register($logger);
 $spotifyRequest = new Request(
     [
         'curl_options' => [
-            CURLOPT_TIMEOUT => 60,
+            CURLOPT_TIMEOUT => 600,
         ]
     ]
 );
@@ -157,6 +159,12 @@ $commandLoader = new FactoryCommandLoader(
             return new DeleteArchivedPlaylistsCommand(
                 $logger->withName('delete-archived-playlists_command'),
                 new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
+            );
+        },
+        'mtfsp:search:track-in-library' => static function () use ($logger, $spotifyApi): Command {
+            return new SearchTrackInLibraryCommand(
+                new PlaylistService($spotifyApi, $logger->withName('playlist_service')),
+                new TrackService($spotifyApi, $logger->withName('track_service'))
             );
         },
         'mtfsp:playground' => static function () use ($logger, $spotifyApi): Command {
