@@ -114,10 +114,10 @@ $spotifySession->setRefreshToken($refreshToken);
 
 // -
 
-$options = array(
+$options = [
     'auto_refresh' => true,
     'auto_retry' => true,
-);
+];
 
 $spotifyApi = new SpotifyWebAPI(
     $options,

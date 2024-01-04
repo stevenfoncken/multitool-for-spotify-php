@@ -29,7 +29,7 @@ class PlaylistService
 
     /**
      * @param string      $playlistId
-     * @param string|null $sortOrder  "desc" or "asc"
+     * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP)
      *
      * @return array
      * @throws \Exception
@@ -99,7 +99,7 @@ class PlaylistService
     }
 
     /**
-     * @return void
+     * @return iterable
      */
     public function deleteAllArchivedPlaylists(): iterable
     {
