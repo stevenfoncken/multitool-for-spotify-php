@@ -445,7 +445,7 @@ class PlaylistService
         try {
             return $this->spotifyApi->getPlaylist(
                 $playlistId,
-                ['fields' => 'id,name,description,snapshot_id,images,owner.display_name']
+                ['fields' => 'id,name,description,snapshot_id,images,owner(display_name),external_urls(spotify)']
             );
         } catch (SpotifyWebAPIException $e) {
             $this->logger->error(
