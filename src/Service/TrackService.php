@@ -28,9 +28,9 @@ class TrackService
     /**
      * @param string $trackId
      *
-     * @return object
+     * @return array|object
      */
-    public function getTrack(string $trackId): object
+    public function getTrack(string $trackId): array|object
     {
         return $this->spotifyApi->getTrack($trackId);
     }
@@ -56,7 +56,9 @@ class TrackService
      */
     public function getAllUserSavedTracks(): iterable
     {
-        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMySavedTracks', 50) as $track) {
+        $apiOptions = ['limit' => 50];
+
+        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMySavedTracks', $apiOptions) as $track) {
             yield $track;
         }
     }

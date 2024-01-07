@@ -32,18 +32,16 @@ class SpotifyApiHelper
      *
      * @param SpotifyWebAPI $spotifyApi
      * @param string        $apiEndpoint
-     * @param int           $limit
+     * @param array         $options
      * @param string|null   $id
-     * @param string|null   $fields
      *
      * @return array of "item"s from API objects.
      */
     public static function universalPagination(
         SpotifyWebAPI $spotifyApi,
         string $apiEndpoint,
-        int $limit,
-        string $id = null,
-        string $fields = null,
+        array $options,
+        string $id = null
     ): array {
         if (method_exists($spotifyApi, $apiEndpoint) === false) {
             throw new \RuntimeException(
@@ -53,25 +51,14 @@ class SpotifyApiHelper
         }
 
         $parameters = [];
-        $offset = 0;
-        $options = [
-            'offset' => $offset,
-            'limit'  => $limit,
-            'fields' => $fields,
-        ];
+        $options['offset'] = 0;
 
-        switch ($apiEndpoint) {
-            case 'getPlaylistTracks':
-                $parameters[0] = $id;
-                break;
+        if ($id !== null) {
+            $parameters[0] = $id;
         }
 
         $output = [];
         while (true) {
-            if ($offset > 0) {
-                $options['offset'] = $offset;
-            }
-
             $parameters[1] = $options;
             $apiResult = $spotifyApi->{$apiEndpoint}(...array_values($parameters));
 
@@ -81,7 +68,7 @@ class SpotifyApiHelper
 
             if (isset($apiResult->next)) {
                 //break; //TODO debug
-                $offset = self::getOffsetFromNext($apiResult->next);
+                $options['offset'] = self::getOffsetFromNext($apiResult->next);
             } else {
                 break;
             }

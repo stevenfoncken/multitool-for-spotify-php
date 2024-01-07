@@ -36,13 +36,16 @@ class PlaylistService
      */
     public function getAllTracksIdsFromPlaylist(string $playlistId, string $sortOrder = null): array
     {
-        $fields = 'items.added_at,items.track.id,next';
+        $apiOptions = [
+            'fields' => 'items.added_at,items.track.id,next',
+            'limit'  => 100,
+        ];
+
         $playlistTracks = SpotifyApiHelper::universalPagination(
             $this->spotifyApi,
             'getPlaylistTracks',
-            100,
-            $playlistId,
-            $fields
+            $apiOptions,
+            $playlistId
         );
 
         if (empty($sortOrder) === false) {
@@ -95,8 +98,9 @@ class PlaylistService
         $archivedPlaylistDescriptionPattern = '/Archive Playlist: (.*?) \| Orig. Playlist Name: (.*?) \| Orig. Playlist Owner: (.*?) \| Orig. Playlist ID: (.*?) \| Orig. Snapshot ID: (.*?)/';
         $archivedPlaylistNamePatternLegacy = '/^[A-Za-z]+-\d{4}-\d{2}-[A-Za-z]+\(\d{2}\.\d{2}\) .*/';
         $userId = $this->spotifyApi->me()->id;
+        $apiOptions = ['limit' => 50];
 
-        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMyPlaylists', 50) as $playlist) {
+        foreach (SpotifyApiHelper::universalPagination($this->spotifyApi, 'getMyPlaylists', $apiOptions) as $playlist) {
             if ($playlist->owner->id !== $userId) {
                 continue;
             }
