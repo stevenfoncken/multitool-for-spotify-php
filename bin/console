@@ -31,6 +31,7 @@ use StevenFoncken\MultiToolForSpotify\Command\PlaygroundCommand;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Service\TrackService;
+use StevenFoncken\MultiToolForSpotify\Service\ArtistService;
 use StevenFoncken\MultiToolForSpotify\Service\MailService;
 use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
 
