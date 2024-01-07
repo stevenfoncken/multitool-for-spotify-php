@@ -82,7 +82,13 @@ class ArtistService
             if (
                 ($album->album_group === 'album' && $album->album_type === 'album') ||
                 ($album->album_group === 'single' && $album->album_type === 'single') ||
-                ($album->album_group === 'appears_on' && $album->album_type === 'compilation')
+                (
+                    $album->album_group === 'appears_on' && (
+                        $album->album_type === 'compilation' ||
+                        $album->album_type === 'album' ||
+                        $album->album_type === 'single'
+                    )
+                )
             ) {
                 foreach ($albumTracks as $albumTrack) {
                     $trackArtists = $albumTrack->artists;
