@@ -212,9 +212,7 @@ class PlaylistService
         $newName = ($newName ?? $origPlaylist->name);
         $newDescription = ($newDescription ?? $origPlaylist->description);
 
-        // Create new playlist
-        $newPlaylist = $this->spotifyApi->createPlaylist(
-            $this->spotifyApi->me()->id,
+        $newPlaylist = $this->createNewUserPlaylist(
             [
                 'name'        => $newName,
                 'description' => $newDescription,
@@ -225,13 +223,8 @@ class PlaylistService
         $this->checkIfPlaylistDescriptionSetCorrectly($newPlaylist, $newDescription);
 
         // Copy tracks to newPlaylist
-        $tracksFromOrigPlaylistChunked = array_chunk(
-            $this->getAllTracksIdsFromPlaylist($origPlaylist->id, $tracksSortOrder),
-            99
-        );
-        foreach ($tracksFromOrigPlaylistChunked as $trackChunk) {
-            $this->spotifyApi->addPlaylistTracks($newPlaylist->id, $trackChunk);
-        }
+        $trackIdsFromOrigPlaylist = $this->getAllTracksIdsFromPlaylist($origPlaylist->id, $tracksSortOrder);
+        $this->addTracksToPlaylist($newPlaylist->id, $trackIdsFromOrigPlaylist);
 
         $this->updatePlaylistCoverImage($newPlaylist->id, $origPlaylist->images[0]->url);
 
@@ -466,5 +459,36 @@ class PlaylistService
 
 
         return null;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return object|array PlaylistObject
+     */
+    public function createNewUserPlaylist(array $options = []): array|object
+    {
+        return $this->spotifyApi->createPlaylist(
+            $this->spotifyApi->me()->id,
+            $options
+        );
+    }
+
+    /**
+     * @param string $playlistIdToBeAddedTo
+     * @param array  $trackIds
+     *
+     * @return void
+     */
+    public function addTracksToPlaylist(string $playlistIdToBeAddedTo, array $trackIds): void
+    {
+        $trackChunks = array_chunk(
+            $trackIds,
+            99
+        );
+
+        foreach ($trackChunks as $trackChunk) {
+            $this->spotifyApi->addPlaylistTracks($playlistIdToBeAddedTo, $trackChunk);
+        }
     }
 }
