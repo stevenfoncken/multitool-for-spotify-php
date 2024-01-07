@@ -170,7 +170,8 @@ $commandLoader = new FactoryCommandLoader(
         'mtfsp:playground' => static function () use ($logger, $spotifyApi): Command {
             return new PlaygroundCommand(
                 $logger->withName('playground_command'),
-                new PlaylistService($spotifyApi, $logger->withName('playlist_service'))
+                new PlaylistService($spotifyApi, $logger->withName('playlist_service')),
+                new TrackService($spotifyApi, $logger->withName('track_service'))
             );
         },
     ]
