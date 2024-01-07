@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use StevenFoncken\MultiToolForSpotify\Service\TrackService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
+use StevenFoncken\MultiToolForSpotify\Service\ArtistService;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,7 +34,8 @@ class PlaygroundCommand extends Command
     public function __construct(
         private LoggerInterface $logger,
         private readonly PlaylistService $playlistService,
-        private readonly TrackService $trackService
+        private readonly TrackService $trackService,
+        private readonly ArtistService $artistService
     ) {
         parent::__construct();
     }

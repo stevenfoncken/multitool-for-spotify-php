@@ -172,7 +172,8 @@ $commandLoader = new FactoryCommandLoader(
             return new PlaygroundCommand(
                 $logger->withName('playground_command'),
                 new PlaylistService($spotifyApi, $logger->withName('playlist_service')),
-                new TrackService($spotifyApi, $logger->withName('track_service'))
+                new TrackService($spotifyApi, $logger->withName('track_service')),
+                new ArtistService($spotifyApi, $logger->withName('artist_service'))
             );
         },
     ]
