@@ -39,7 +39,7 @@ class PlaylistService
 
     /**
      * @param string      $playlistId
-     * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP)
+     * @param string|null $sortOrder "desc" (newest at TOP) or "asc" (oldest at TOP).
      *
      * @return array
      * @throws \Exception
@@ -474,7 +474,7 @@ class PlaylistService
     /**
      * @param array $options
      *
-     * @return object|array PlaylistObject
+     * @return object|array PlaylistObject.
      */
     public function createNewUserPlaylist(array $options = []): array|object
     {

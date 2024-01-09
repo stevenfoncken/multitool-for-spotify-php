@@ -40,6 +40,7 @@ class PlaygroundCommand extends Command
      * @param LoggerInterface $logger
      * @param PlaylistService $playlistService
      * @param TrackService    $trackService
+     * @param ArtistService   $artistService
      */
     public function __construct(
         private LoggerInterface $logger,
