@@ -333,6 +333,63 @@ class PlaylistService
     }
 
     /**
+     * @param string $playlistId
+     *
+     * @return object|null
+     */
+    public function getPlaylistMetadata(string $playlistId): object|null
+    {
+        try {
+            return $this->spotifyApi->getPlaylist(
+                $playlistId,
+                ['fields' => 'id,name,description,snapshot_id,images,owner(display_name),external_urls(spotify)']
+            );
+        } catch (SpotifyWebAPIException $e) {
+            $this->logger->error(
+                'Caught SpotifyWebAPIException: ' . $e->getMessage(),
+                [
+                    'playlist_id' => $playlistId,
+                    'exception'   => $e,
+                ]
+            );
+        }
+
+
+        return null;
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return object|array PlaylistObject.
+     */
+    public function createNewUserPlaylist(array $options = []): array|object
+    {
+        return $this->spotifyApi->createPlaylist(
+            $this->spotifyApi->me()->id,
+            $options
+        );
+    }
+
+    /**
+     * @param string $playlistIdToBeAddedTo
+     * @param array  $trackIds
+     *
+     * @return void
+     */
+    public function addTracksToPlaylist(string $playlistIdToBeAddedTo, array $trackIds): void
+    {
+        $trackChunks = array_chunk(
+            $trackIds,
+            99
+        );
+
+        foreach ($trackChunks as $trackChunk) {
+            $this->spotifyApi->addPlaylistTracks($playlistIdToBeAddedTo, $trackChunk);
+        }
+    }
+
+    /**
      * Searches for the given snapshot_id in the description of all archived playlists to determine if the already
      * archived playlist changed in its current version.
      *
@@ -445,62 +502,5 @@ class PlaylistService
         }
 
         $this->logger->debug('checkIfPlaylistDescriptionSetCorrectly: Done');
-    }
-
-    /**
-     * @param string $playlistId
-     *
-     * @return object|null
-     */
-    public function getPlaylistMetadata(string $playlistId): object|null
-    {
-        try {
-            return $this->spotifyApi->getPlaylist(
-                $playlistId,
-                ['fields' => 'id,name,description,snapshot_id,images,owner(display_name),external_urls(spotify)']
-            );
-        } catch (SpotifyWebAPIException $e) {
-            $this->logger->error(
-                'Caught SpotifyWebAPIException: ' . $e->getMessage(),
-                [
-                    'playlist_id' => $playlistId,
-                    'exception'   => $e,
-                ]
-            );
-        }
-
-
-        return null;
-    }
-
-    /**
-     * @param array $options
-     *
-     * @return object|array PlaylistObject.
-     */
-    public function createNewUserPlaylist(array $options = []): array|object
-    {
-        return $this->spotifyApi->createPlaylist(
-            $this->spotifyApi->me()->id,
-            $options
-        );
-    }
-
-    /**
-     * @param string $playlistIdToBeAddedTo
-     * @param array  $trackIds
-     *
-     * @return void
-     */
-    public function addTracksToPlaylist(string $playlistIdToBeAddedTo, array $trackIds): void
-    {
-        $trackChunks = array_chunk(
-            $trackIds,
-            99
-        );
-
-        foreach ($trackChunks as $trackChunk) {
-            $this->spotifyApi->addPlaylistTracks($playlistIdToBeAddedTo, $trackChunk);
-        }
     }
 }
