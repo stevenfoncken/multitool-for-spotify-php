@@ -19,9 +19,9 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
 /**
  * Console command that handles the Spotify OAuth process & API token generation.
  *
- * @author Steven Foncken <dev@stevenfoncken.de>
+ * @author    Steven Foncken <dev@stevenfoncken.de>
  * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
+ * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 #[AsCommand(
     name: 'mtfsp:auth',

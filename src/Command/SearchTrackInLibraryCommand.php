@@ -20,7 +20,10 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
  * @copyright ^
  * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
-#[AsCommand(name: 'mtfsp:search:track-in-library', description: 'Search track in user library',)]
+#[AsCommand(
+    name: 'mtfsp:search:track-in-library',
+    description: 'Search track in user library',
+)]
 class SearchTrackInLibraryCommand extends Command
 {
     /**
