@@ -75,7 +75,7 @@ class SearchTrackInLibraryCommand extends Command
         $trackName = $track->name;
         $trackArtists = implode(', ', $this->trackService->getAllTrackArtists($track));
 
-        $io->green(
+        $io->magenta(
             sprintf(
                 'Search for track: %s by %s',
                 $trackName,
