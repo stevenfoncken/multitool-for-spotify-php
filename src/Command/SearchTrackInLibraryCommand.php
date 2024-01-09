@@ -27,9 +27,8 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that searches for a given track (id) in all user-generated playlists (library).
  *
- * @author    Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
+ * @since 0.2.0
+ * @author Steven Foncken <dev@stevenfoncken.de>
  */
 #[AsCommand(
     name: 'mtfsp:search:track-in-library',

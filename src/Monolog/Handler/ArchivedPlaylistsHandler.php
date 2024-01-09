@@ -20,9 +20,8 @@ use Monolog\Handler\HandlerWrapper;
  * HandlerWrapper that adds custom filtering so that only archive playlist creation is logged.
  * It can be applied to other handlers e.g. StreamHandler.
  *
+ * @since 0.2.0
  * @author Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 class ArchivedPlaylistsHandler extends HandlerWrapper
 {

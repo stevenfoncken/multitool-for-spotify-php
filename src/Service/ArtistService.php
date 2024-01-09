@@ -20,9 +20,8 @@ use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
 /**
  * Service that handles various tasks related to Spotify artists.
  *
+ * @since 0.2.0
  * @author Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 class ArtistService
 {

@@ -27,9 +27,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Console command that copies a given artist's catalog into a new or given playlist.
  *
- * @author    Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
+ * @since 0.2.0
+ * @author Steven Foncken <dev@stevenfoncken.de>
  */
 #[AsCommand(
     name: 'mtfsp:artist:catalog-to-playlist',

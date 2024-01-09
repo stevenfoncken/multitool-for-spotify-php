@@ -18,9 +18,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Custom style for console commands.
  *
+ * @since 0.2.0
  * @author Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 class CustomStyle extends SymfonyStyle
 {

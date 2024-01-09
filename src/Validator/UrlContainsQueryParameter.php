@@ -18,9 +18,8 @@ use Symfony\Component\Validator\Constraint;
 /**
  * Constraint (rule) for URL query parameters.
  *
+ * @since 0.2.0
  * @author Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 class UrlContainsQueryParameter extends Constraint
 {

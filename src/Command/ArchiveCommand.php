@@ -31,9 +31,8 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that archive playlists based on passed playlist Ids.
  *
- * @author    Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
+ * @since 0.2.0
+ * @author Steven Foncken <dev@stevenfoncken.de>
  */
 #[AsCommand(
     name: 'mtfsp:archive',

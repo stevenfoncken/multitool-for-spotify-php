@@ -26,9 +26,8 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that deletes archived playlists.
  *
- * @author    Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license   https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
+ * @since 0.2.0
+ * @author Steven Foncken <dev@stevenfoncken.de>
  */
 #[AsCommand(
     name: 'mtfsp:archive:delete-playlists',

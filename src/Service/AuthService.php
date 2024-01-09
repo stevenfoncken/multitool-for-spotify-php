@@ -18,9 +18,8 @@ use SpotifyWebAPI\Session;
 /**
  * Service for AuthCommand that contains the logic for the Spotify OAuth process & API token generation.
  *
+ * @since 0.2.0
  * @author Steven Foncken <dev@stevenfoncken.de>
- * @copyright ^
- * @license https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE - MIT License
  */
 class AuthService
 {
