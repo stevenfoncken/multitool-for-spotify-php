@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\SpotifyWebAPIException;
 use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
 
 /**
  * Service that handles various tasks related to Spotify playlists.
@@ -381,6 +381,8 @@ class PlaylistService
     {
         $this->logger->debug('updatePlaylistCoverImage: Start', ['playlist_id' => $playlistId]);
 
+        $imageManager = ImageManager::gd();
+
         for ($retryCount = 0; $retryCount < 3; $retryCount++) {
             try {
                 $origCoverImageData = file_get_contents($imagePath);
@@ -389,7 +391,7 @@ class PlaylistService
 
                 switch ($mimeType) {
                     case 'image/jpeg':
-                        $compressedImage = Image::make($origCoverImageData)->encode('image/jpeg', 60);
+                        $compressedImage = $imageManager->read($origCoverImageData)->toJpeg(quality: 55)->toString();
                         $this->spotifyApi->updatePlaylistImage($playlistId, base64_encode($compressedImage));
                         break;
                     case 'application/x-gzip':
