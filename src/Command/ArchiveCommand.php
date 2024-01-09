@@ -163,10 +163,7 @@ class ArchiveCommand extends Command
         $this->logger->info('Archive process: Done', ['archived_playlists' => $newArchivedPlaylistsCount]);
 
         if ($mailLastRunLogs) {
-            $mailSubject = sprintf(
-                'MTFSP - Playlists archived %s',
-                date('W/o')
-            );
+            $mailSubject = 'MTFSP - Playlists archived ' . date('W/o');
 
             $this->mailService->sendLastRunLogsMail($mailSubject);
         }
