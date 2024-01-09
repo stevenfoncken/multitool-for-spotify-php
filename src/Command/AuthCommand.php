@@ -61,7 +61,7 @@ class AuthCommand extends Command
 
         // ---
 
-        $callbackUrlQuestion = $this->generateCallbackUrlQuestion();
+        $callbackUrlQuestion = self::generateCallbackUrlQuestion();
         $callbackUrlQuestion->setMaxAttempts(2);
 
         $callbackURL = $io->askQuestion($callbackUrlQuestion);
@@ -78,7 +78,7 @@ class AuthCommand extends Command
     /**
      * @return Question
      */
-    private function generateCallbackUrlQuestion(): Question
+    private static function generateCallbackUrlQuestion(): Question
     {
         $question = new Question('Please paste the callback URL here');
         $validator = Validation::createValidator();
