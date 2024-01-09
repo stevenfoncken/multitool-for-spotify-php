@@ -66,7 +66,7 @@ class CreateArtistCatalogPlaylistCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger->info('Create artist catalog playlist process: Start');
+        $this->logger->info('"Create artist catalog playlist" process: Start');
 
         $artistId = $input->getArgument('artistId');
         $playlistId = $input->getArgument('playlistId');
@@ -125,7 +125,7 @@ class CreateArtistCatalogPlaylistCommand extends Command
             $artistTracks
         );
 
-        $this->logger->info('Create artist catalog playlist process: Done');
+        $this->logger->info('"Create artist catalog playlist" process: Done');
 
 
         return Command::SUCCESS;

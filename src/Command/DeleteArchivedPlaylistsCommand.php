@@ -44,7 +44,7 @@ class DeleteArchivedPlaylistsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger->info('Archived playlist deletion process: Start');
+        $this->logger->info('"Archived playlist deletion" process: Start');
 
         $section = $output->section();
         $io = new CustomStyle($input, $section);
@@ -85,7 +85,7 @@ class DeleteArchivedPlaylistsCommand extends Command
             $io->magenta('No archived playlists found.');
         }
 
-        $this->logger->info('Archived playlist deletion process: Done');
+        $this->logger->info('"Archived playlist deletion" process: Done');
 
 
         return Command::SUCCESS;
