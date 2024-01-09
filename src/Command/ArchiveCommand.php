@@ -15,17 +15,17 @@ namespace StevenFoncken\MultiToolForSpotify\Command;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use StevenFoncken\MultiToolForSpotify\Helper\CsvHelper;
-use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Service\MailService;
+use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
@@ -101,7 +101,7 @@ class ArchiveCommand extends Command
 
         // Validate argument
         if (
-            strpos($playlistIDsOrCsvArg, ',') === false &&
+            str_contains($playlistIDsOrCsvArg, ',') === false &&
             (
                 file_exists($playlistIDsOrCsvArg) === false ||
                 pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) !== 'csv'
@@ -128,7 +128,7 @@ class ArchiveCommand extends Command
         $progressBar->setMessage('', 'playlist_id');
 
         $newArchivedPlaylistsCount = 0;
-        if (strpos($playlistIDsOrCsvArg, ',') !== false) {
+        if (str_contains($playlistIDsOrCsvArg, ',')) {
             // Process comma-separated string
             $inputPlaylistIds = \str_replace(' ', '', \str_getcsv($playlistIDsOrCsvArg));
 

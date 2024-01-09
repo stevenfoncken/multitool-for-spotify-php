@@ -34,7 +34,7 @@ class UrlContainsQueryParameterValidator extends ConstraintValidator
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof UrlContainsQueryParameter) {
+        if ($constraint instanceof UrlContainsQueryParameter === false) {
             throw new UnexpectedTypeException($constraint, UrlContainsQueryParameter::class);
         }
 
@@ -43,7 +43,7 @@ class UrlContainsQueryParameterValidator extends ConstraintValidator
             return;
         }
 
-        if (!\is_scalar($value) && !$value instanceof \Stringable) {
+        if (\is_scalar($value) === false && $value instanceof \Stringable === false) {
             throw new UnexpectedValueException($value, 'string');
         }
 

@@ -23,8 +23,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 use StevenFoncken\MultiToolForSpotify\Service\AuthService;
+use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
 
 /**

@@ -15,9 +15,9 @@ namespace StevenFoncken\MultiToolForSpotify\Service;
 
 use Psr\Log\LoggerInterface;
 use SpotifyWebAPI\SpotifyWebAPI;
+use Intervention\Image\ImageManager;
 use SpotifyWebAPI\SpotifyWebAPIException;
 use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
-use Intervention\Image\ImageManager;
 
 /**
  * Service that handles various tasks related to Spotify playlists.
@@ -39,7 +39,7 @@ class PlaylistService
 
     /**
      * @param string      $playlistId
-     * @param string|null $sortOrder "desc" (newest at TOP) or "asc" (oldest at TOP).
+     * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP).
      *
      * @return array
      * @throws \Exception
@@ -341,7 +341,7 @@ class PlaylistService
      *
      * @return bool
      */
-    public function checkIfArchivedPlaylistChanged(string $origPlaylistSnapshotId, array $archivedPlaylists): bool
+    private function checkIfArchivedPlaylistChanged(string $origPlaylistSnapshotId, array $archivedPlaylists): bool
     {
         $pattern = '/Orig. Snapshot ID: (.*)/';
 
@@ -377,7 +377,7 @@ class PlaylistService
      *
      * @return void
      */
-    public function updatePlaylistCoverImage(string $playlistId, string $imagePath): void
+    private function updatePlaylistCoverImage(string $playlistId, string $imagePath): void
     {
         $this->logger->debug('updatePlaylistCoverImage: Start', ['playlist_id' => $playlistId]);
 
@@ -421,7 +421,7 @@ class PlaylistService
      *
      * @return void
      */
-    public function checkIfPlaylistDescriptionSetCorrectly(object $newPlaylist, string $shouldDescription): void
+    private function checkIfPlaylistDescriptionSetCorrectly(object $newPlaylist, string $shouldDescription): void
     {
         $idOfNewPlaylist = $newPlaylist->id;
         $descriptionOfNewPlaylist = $newPlaylist->description;

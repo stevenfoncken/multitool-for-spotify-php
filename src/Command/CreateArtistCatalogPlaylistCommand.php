@@ -13,16 +13,16 @@
 
 namespace StevenFoncken\MultiToolForSpotify\Command;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 use StevenFoncken\MultiToolForSpotify\Service\ArtistService;
 use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
-use Psr\Log\LoggerInterface;
+use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
  * Console command that copies a given artist's catalog into a new or given playlist.
