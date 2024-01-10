@@ -438,7 +438,7 @@ class PlaylistService
 
         $imageManager = ImageManager::gd();
 
-        for ($retryCount = 0; $retryCount < 3; $retryCount++) {
+        for ($retryCount = 0; $retryCount < 6; $retryCount++) {
             try {
                 $origCoverImageData = file_get_contents($imagePath);
                 $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
