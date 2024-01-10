@@ -78,8 +78,8 @@ class CreateArtistCatalogPlaylistCommand extends Command
     {
         $this->logger->info('"Create artist catalog playlist" process: Start');
 
-        $artistId = $input->getArgument('artistId');
-        $playlistId = $input->getArgument('playlistId');
+        $artistId = (string) $input->getArgument('artistId');
+        $playlistId = (string) $input->getArgument('playlistId');
         $artist = $this->artistService->getArtist($artistId);
         $io = new CustomStyle($input, $output);
 

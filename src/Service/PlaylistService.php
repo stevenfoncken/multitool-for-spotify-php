@@ -41,7 +41,7 @@ class PlaylistService
      * @param string      $playlistId
      * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP).
      *
-     * @return array
+     * @return string[]
      * @throws \Exception
      */
     public function getAllTracksIdsFromPlaylist(string $playlistId, string $sortOrder = null): array
@@ -142,7 +142,7 @@ class PlaylistService
     }
 
     /**
-     * @return array
+     * @return object[]
      */
     public function findAllArchivedPlaylists(): array
     {
@@ -156,7 +156,7 @@ class PlaylistService
     }
 
     /**
-     * @return array
+     * @return object[]
      */
     public function findAllSelfCreatedPlaylists(): array
     {
@@ -197,16 +197,16 @@ class PlaylistService
      * @param string|null $newDescription
      * @param string|null $tracksSortOrder
      *
-     * @return string
+     * @return string new playlist id.
      * @throws \Exception
      */
     public function copyPlaylist(
         string $origPlaylistId,
-        object $origPlaylist = null,
+        ?object $origPlaylist = null,
         bool $public = false,
-        string $newName = null,
-        string $newDescription = null,
-        string $tracksSortOrder = null
+        ?string $newName = null,
+        ?string $newDescription = null,
+        ?string $tracksSortOrder = null
     ): string {
         $this->logger->debug('copyPlaylist: Start', ['playlist_id_orig' => $origPlaylistId]);
 
@@ -258,7 +258,6 @@ class PlaylistService
      * @param string      $newNamePrefix
      * @param string      $newNameSuffix
      * @param string|null $tracksSortOrder
-     * @param bool        $alsoArchiveExtern
      *
      * @return bool
      * @throws \Exception
@@ -268,8 +267,7 @@ class PlaylistService
         array $archivedPlaylists,
         string $newNamePrefix = 'ARCHIVE',
         string $newNameSuffix = '',
-        string $tracksSortOrder = null,
-        bool $alsoArchiveExtern = false,// TODO
+        ?string $tracksSortOrder = null
     ): bool {
         $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
 
@@ -361,9 +359,9 @@ class PlaylistService
     /**
      * @param array $options
      *
-     * @return object|array PlaylistObject.
+     * @return object PlaylistObject.
      */
-    public function createNewUserPlaylist(array $options = []): array|object
+    public function createNewUserPlaylist(array $options = []): object
     {
         return $this->spotifyApi->createPlaylist(
             $this->spotifyApi->me()->id,

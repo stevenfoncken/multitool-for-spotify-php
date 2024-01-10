@@ -93,8 +93,8 @@ class ArchiveCommand extends Command
 
         // ---
 
-        $playlistIDsOrCsvArg = $input->getArgument('playlistIDsOrCsv');
-        $mailLastRunLogs = $input->getOption('mail');
+        $playlistIDsOrCsvArg = (string) $input->getArgument('playlistIDsOrCsv');
+        $mailLastRunLogs = (bool) $input->getOption('mail');
         $io = new CustomStyle($input, $output);
 
         // ---

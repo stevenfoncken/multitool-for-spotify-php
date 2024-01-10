@@ -93,7 +93,7 @@ class AuthCommand extends Command
         $question = new Question('Please paste the callback URL here');
         $validator = Validation::createValidator();
 
-        $question->setValidator(function ($answer) use ($validator): string {
+        $question->setValidator(static function ($answer) use ($validator): string {
             // Validate against the NotBlank constraint
             $notBlankViolations = $validator->validate($answer, new NotBlank());
 

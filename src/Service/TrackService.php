@@ -38,9 +38,9 @@ class TrackService
     /**
      * @param string $trackId
      *
-     * @return array|object
+     * @return object
      */
-    public function getTrack(string $trackId): array|object
+    public function getTrack(string $trackId): object
     {
         return $this->spotifyApi->getTrack($trackId);
     }
@@ -48,7 +48,7 @@ class TrackService
     /**
      * @param object $track
      *
-     * @return array
+     * @return string[]
      */
     public function getAllTrackArtists(object $track): array
     {
@@ -76,7 +76,7 @@ class TrackService
     /**
      * @param string|array $trackIds
      *
-     * @return array
+     * @return string[]
      */
     public function isTrackInUserSavedTracks(string|array $trackIds): array
     {

@@ -75,8 +75,8 @@ class SearchTrackInLibraryCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $trackIdNeedle = $input->getArgument('trackIdNeedle');
-        $skipArchived = $input->getOption('skipArchived');
+        $trackIdNeedle = (string) $input->getArgument('trackIdNeedle');
+        $skipArchived = (bool) $input->getOption('skipArchived');
         $io = new CustomStyle($input, $output);
 
         // ---

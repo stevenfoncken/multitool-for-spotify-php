@@ -38,9 +38,9 @@ class ArtistService
     /**
      * @param string $artistId
      *
-     * @return array|object
+     * @return object
      */
-    public function getArtist(string $artistId): array|object
+    public function getArtist(string $artistId): object
     {
         return $this->spotifyApi->getArtist($artistId);
     }
@@ -77,7 +77,7 @@ class ArtistService
     /**
      * @param string $artistId
      *
-     * @return array
+     * @return array<int, array{release_date: string, SpotifySimplifiedTrackObject: object, album_type: string}>
      * @throws \Exception
      */
     public function getAllArtistTracks(string $artistId): array
