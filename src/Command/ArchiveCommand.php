@@ -101,11 +101,8 @@ class ArchiveCommand extends Command
 
         // Validate argument
         if (
-            str_contains($playlistIDsOrCsvArg, ',') === false &&
-            (
-                file_exists($playlistIDsOrCsvArg) === false ||
-                pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) !== 'csv'
-            )
+            file_exists($playlistIDsOrCsvArg) === false &&
+            pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) === 'csv'
         ) {
             throw new InvalidArgumentException(
                 'Invalid input data. Please provide a CSV file or a comma-separated string.',
@@ -122,31 +119,15 @@ class ArchiveCommand extends Command
 
         // ---
 
-        ProgressBar::setFormatDefinition('custom', ' %current%/%max% - Archiving playlists... (%playlist_id%)');
+        ProgressBar::setFormatDefinition('custom', ' %current%/%max% - Archiving playlist... (%playlist_id%)');
         $progressBar = new ProgressBar($output);
         $progressBar->setFormat('custom');
         $progressBar->setMessage('', 'playlist_id');
 
         $newArchivedPlaylistsCount = 0;
-        if (str_contains($playlistIDsOrCsvArg, ',')) {
-            // Process comma-separated string
-            $inputPlaylistIds = \str_replace(' ', '', \str_getcsv($playlistIDsOrCsvArg));
 
-            foreach ($progressBar->iterate($inputPlaylistIds) as $playlistId) {
-                $progressBar->setMessage($playlistId, 'playlist_id');
-
-                if (
-                    $this->playlistService->archivePlaylist(
-                        playlistId: $playlistId,
-                        archivedPlaylists: $archivedPlaylists
-                    )
-                ) {
-                    $newArchivedPlaylistsCount++;
-                }
-                usleep(20000);
-            }
-        } elseif (file_exists($playlistIDsOrCsvArg) && pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) === 'csv') {
-            // Process CSV file
+        // Process CSV file
+        if (file_exists($playlistIDsOrCsvArg) && pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) === 'csv') {
             foreach ($progressBar->iterate(CsvHelper::getCsvData($playlistIDsOrCsvArg, ';')) as $csvRow) {
                 $progressBar->setMessage($csvRow['Playlist_Id'], 'playlist_id');
 
@@ -157,6 +138,29 @@ class ArchiveCommand extends Command
                         newNamePrefix: $csvRow['Playlist_Name_Prefix'],
                         newNameSuffix: $csvRow['Playlist_Name_Suffix'],
                         tracksSortOrder: $csvRow['Playlist_Sort_Order']
+                    )
+                ) {
+                    $newArchivedPlaylistsCount++;
+                }
+                usleep(20000);
+            }
+        }
+
+        if (pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) !== 'csv') {
+            $inputPlaylistIds[] = $playlistIDsOrCsvArg;
+
+            // Process comma-separated string
+            if (str_contains($playlistIDsOrCsvArg, ',')) {
+                $inputPlaylistIds = \str_replace(' ', '', \str_getcsv($playlistIDsOrCsvArg));
+            }
+
+            foreach ($progressBar->iterate($inputPlaylistIds) as $playlistId) {
+                $progressBar->setMessage($playlistId, 'playlist_id');
+
+                if (
+                    $this->playlistService->archivePlaylist(
+                        playlistId: $playlistId,
+                        archivedPlaylists: $archivedPlaylists
                     )
                 ) {
                     $newArchivedPlaylistsCount++;
