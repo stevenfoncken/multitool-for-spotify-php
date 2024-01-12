@@ -101,10 +101,10 @@ class SearchTrackInLibraryCommand extends Command
         }
 
         foreach ($this->playlistService->getAllUserPlaylists(true, !$skipArchived) as $playlist) {
-            $trackIds = $this->playlistService->getAllTracksIdsFromPlaylist($playlist->id);
+            $tracks = $this->playlistService->getAllTracksFromPlaylist($playlist->id);
 
-            foreach ($trackIds as $trackId) {
-                if ($trackId === $trackIdNeedle) {
+            foreach ($tracks as $track) {
+                if ($track->id === $trackIdNeedle) {
                     $foundInPlaylists[] = $playlist->name;
                     break;
                 }

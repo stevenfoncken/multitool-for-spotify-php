@@ -41,13 +41,13 @@ class PlaylistService
      * @param string      $playlistId
      * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP).
      *
-     * @return string[]
+     * @return object[]
      * @throws \Exception
      */
-    public function getAllTracksIdsFromPlaylist(string $playlistId, string $sortOrder = null): array
+    public function getAllTracksFromPlaylist(string $playlistId, string $sortOrder = null): array
     {
         $apiOptions = [
-            'fields' => 'items.added_at,items.track.id,next',
+            'fields' => 'items.added_at,items.track(id,name,preview_url,artists(id,name,type),album(release_date)),next',
             'limit'  => 100,
         ];
 
@@ -85,7 +85,7 @@ class PlaylistService
             $track = $item->track;
 
             if ($track !== null) {
-                $tracks[] = $track->id;
+                $tracks[] = $track;
             }
         }
 
@@ -233,8 +233,8 @@ class PlaylistService
         $this->checkIfPlaylistDescriptionSetCorrectly($newPlaylist, $newDescription);
 
         // Copy tracks to newPlaylist
-        $trackIdsFromOrigPlaylist = $this->getAllTracksIdsFromPlaylist($origPlaylist->id, $tracksSortOrder);
-        $this->addTracksToPlaylist($newPlaylist->id, $trackIdsFromOrigPlaylist);
+        $tracksFromOrigPlaylist = $this->getAllTracksFromPlaylist($origPlaylist->id, $tracksSortOrder);
+        $this->addTracksToPlaylist($newPlaylist->id, $tracksFromOrigPlaylist);
 
         $this->updatePlaylistCoverImage($newPlaylist->id, $origPlaylist->images[0]->url);
 
@@ -371,12 +371,17 @@ class PlaylistService
 
     /**
      * @param string $playlistIdToBeAddedTo
-     * @param array  $trackIds
+     * @param array  $tracks
      *
      * @return void
      */
-    public function addTracksToPlaylist(string $playlistIdToBeAddedTo, array $trackIds): void
+    public function addTracksToPlaylist(string $playlistIdToBeAddedTo, array $tracks): void
     {
+        $trackIds = [];
+        foreach ($tracks as $track) {
+            $trackIds[] = $track->id;
+        }
+
         $trackChunks = array_chunk(
             $trackIds,
             99
