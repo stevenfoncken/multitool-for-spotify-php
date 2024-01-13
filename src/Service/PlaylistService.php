@@ -277,7 +277,7 @@ class PlaylistService
             return false;
         }
 
-        if ($this->checkIfArchivedPlaylistChanged($origPlaylist->snapshot_id, $archivedPlaylists) === true) {
+        if ($this->checkIfArchivedPlaylistChanged($origPlaylist->snapshot_id, $archivedPlaylists)) {
             $dateTime = new \DateTime();
             $currentYear = $dateTime->format('o');
             $currentWeek = $dateTime->format('W');
