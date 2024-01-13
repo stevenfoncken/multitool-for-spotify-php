@@ -96,17 +96,14 @@ class PlaylistService
     /**
      * @param bool $selfCreated
      * @param bool $archived
-     * @param bool $archivedLegacy
      *
      * @return iterable
      */
     public function getUserPlaylists(
         bool $selfCreated = true,
-        bool $archived = true,
-        bool $archivedLegacy = false
+        bool $archived = true
     ): iterable {
         $archivedPlaylistDescriptionPattern = '/Archive Playlist: (.*?) \| Orig. Playlist Name: (.*?) \| Orig. Playlist Owner: (.*?) \| Orig. Playlist ID: (.*?) \| Orig. Snapshot ID: (.*?)/';
-        $archivedPlaylistNamePatternLegacy = '/^[A-Za-z]+-\d{4}-\d{2}-[A-Za-z]+\(\d{2}\.\d{2}\) .*/';
         $userId = $this->spotifyApi->me()->id;
         $apiOptions = ['limit' => 50];
 
@@ -116,26 +113,7 @@ class PlaylistService
             }
 
             $isArchived = (bool) preg_match($archivedPlaylistDescriptionPattern, $playlist->description);
-            if (
-                $archived &&
-                $isArchived
-            ) {
-                yield $playlist;
-            }
-
-            $isArchivedLegacy = (bool) preg_match($archivedPlaylistNamePatternLegacy, $playlist->name);
-            if (
-                $archivedLegacy &&
-                $isArchivedLegacy
-            ) {
-                yield $playlist;
-            }
-
-            if (
-                $selfCreated &&
-                $isArchived === false &&
-                $isArchivedLegacy === false
-            ) {
+            if (($archived && $isArchived) || ($selfCreated && $isArchived === false)) {
                 yield $playlist;
             }
         }
