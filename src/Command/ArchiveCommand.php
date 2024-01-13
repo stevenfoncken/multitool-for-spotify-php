@@ -135,8 +135,8 @@ class ArchiveCommand extends Command
                     $this->playlistService->archivePlaylist(
                         playlistId: $csvRow['Playlist_Id'],
                         archivedPlaylists: $archivedPlaylists,
-                        newNamePrefix: $csvRow['Playlist_Name_Prefix'],
-                        newNameSuffix: $csvRow['Playlist_Name_Suffix'],
+                        namePrefix: $csvRow['Playlist_Name_Prefix'],
+                        nameSuffix: $csvRow['Playlist_Name_Suffix'],
                         tracksSortOrder: $csvRow['Playlist_Sort_Order']
                     )
                 ) {

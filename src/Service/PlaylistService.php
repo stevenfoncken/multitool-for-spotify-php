@@ -232,7 +232,7 @@ class PlaylistService
 
         $this->checkIfPlaylistDescriptionSetCorrectly($newPlaylist, $newDescription);
 
-        // Copy tracks to newPlaylist
+        // Copy tracks to new playlist
         $tracksFromOrigPlaylist = $this->getAllTracksFromPlaylist($origPlaylist->id, $tracksSortOrder);
         $this->addTracksToPlaylist($newPlaylist->id, $tracksFromOrigPlaylist);
 
@@ -255,8 +255,8 @@ class PlaylistService
     /**
      * @param string      $playlistId
      * @param array       $archivedPlaylists
-     * @param string      $newNamePrefix
-     * @param string      $newNameSuffix
+     * @param string      $namePrefix
+     * @param string      $nameSuffix
      * @param string|null $tracksSortOrder
      *
      * @return bool
@@ -265,8 +265,8 @@ class PlaylistService
     public function archivePlaylist(
         string $playlistId,
         array $archivedPlaylists,
-        string $newNamePrefix = 'ARCHIVE',
-        string $newNameSuffix = '',
+        string $namePrefix = 'ARCHIVE',
+        string $nameSuffix = '',
         ?string $tracksSortOrder = null
     ): bool {
         $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
@@ -283,17 +283,17 @@ class PlaylistService
             $currentWeek = $dateTime->format('W');
             $currentDate = $dateTime->format('d.m.Y H:i:s');
 
-            $nameSuffix = (($newNameSuffix !== '') ? $newNameSuffix : $origPlaylist->name);
+            $nameSuffix = (($nameSuffix !== '') ? $nameSuffix : $origPlaylist->name);
             // PREFIX-YYYY-WW-SUFFIX or PLAYLIST_NAME
-            $newPlaylistName = sprintf(
+            $archivedPlaylistName = sprintf(
                 '%s-%s-%s-%s',
-                $newNamePrefix,
+                $namePrefix,
                 $currentYear,
                 $currentWeek,
                 $nameSuffix
             );
 
-            $newPlaylistDescription = sprintf(
+            $archivedPlaylistDescription = sprintf(
                 'Archive Playlist: %s | Orig. Playlist Name: %s | Orig. Playlist Owner: %s | Orig. Playlist ID: %s | Orig. Snapshot ID: %s',
                 $currentDate,
                 $origPlaylist->name,
@@ -302,23 +302,23 @@ class PlaylistService
                 $origPlaylist->snapshot_id
             );
 
-            $newPlaylistId = $this->copyPlaylist(
+            $newArchivedPlaylistId = $this->copyPlaylist(
                 $playlistId,
                 $origPlaylist,
                 false,
-                $newPlaylistName,
-                $newPlaylistDescription,
+                $archivedPlaylistName,
+                $archivedPlaylistDescription,
                 $tracksSortOrder
             );
 
             $this->logger->info(
                 'archivePlaylist: Done',
                 [
-                    'playlist_id_new'      => $newPlaylistId,
-                    'playlist_name_prefix' => $newNamePrefix,
-                    'playlist_name_year'   => $currentYear,
-                    'playlist_name_week'   => $currentWeek,
-                    'playlist_name_suffix' => $nameSuffix,
+                    'archived_playlist_id_new'      => $newArchivedPlaylistId,
+                    'archived_playlist_name_prefix' => $namePrefix,
+                    'archived_playlist_name_year'   => $currentYear,
+                    'archived_playlist_name_week'   => $currentWeek,
+                    'archived_playlist_name_suffix' => $nameSuffix,
                 ]
             );
 
@@ -474,32 +474,32 @@ class PlaylistService
     }
 
     /**
-     * Check if newPlaylist description is set correctly, else retry to set it.
+     * Check if playlist description is set correctly, else retry to set it.
      *
-     * @param object $newPlaylist
+     * @param object $playlist
      * @param string $shouldDescription
      *
      * @return void
      */
-    private function checkIfPlaylistDescriptionSetCorrectly(object $newPlaylist, string $shouldDescription): void
+    private function checkIfPlaylistDescriptionSetCorrectly(object $playlist, string $shouldDescription): void
     {
-        $idOfNewPlaylist = $newPlaylist->id;
-        $descriptionOfNewPlaylist = $newPlaylist->description;
+        $playlistId = $playlist->id;
+        $playlistDescription = $playlist->description;
 
         $this->logger->debug(
             'checkIfPlaylistDescriptionSetCorrectly: Start',
             [
                 'should_playlist_desc' => $shouldDescription,
-                'is_playlist_desc'     => $newPlaylist->description,
+                'is_playlist_desc'     => $playlistDescription,
             ]
         );
 
-        while ($descriptionOfNewPlaylist === true || empty($descriptionOfNewPlaylist)) {
-            $this->spotifyApi->updatePlaylist($idOfNewPlaylist, ['description' => $shouldDescription]);
-            $descriptionOfNewPlaylist = $this->getPlaylistMetadata($idOfNewPlaylist)->description;
+        while ($playlistDescription === true || empty($playlistDescription)) {
+            $this->spotifyApi->updatePlaylist($playlistId, ['description' => $shouldDescription]);
+            $playlistDescription = $this->getPlaylistMetadata($playlistId)->description;
             $this->logger->debug(
                 'checkIfPlaylistDescriptionSetCorrectly: Updated',
-                ['new_playlist_desc' => $descriptionOfNewPlaylist]
+                ['new_playlist_desc' => $playlistDescription]
             );
             usleep(20000);
         }
