@@ -100,7 +100,7 @@ class PlaylistService
      *
      * @return iterable
      */
-    public function getAllUserPlaylists(
+    public function getUserPlaylists(
         bool $selfCreated = true,
         bool $archived = true,
         bool $archivedLegacy = false
@@ -147,7 +147,7 @@ class PlaylistService
     public function findAllArchivedPlaylists(): array
     {
         $foundArchivedPlaylists = [];
-        foreach ($this->getAllUserPlaylists(false, true) as $playlist) {
+        foreach ($this->getUserPlaylists(selfCreated: false, archived: true) as $playlist) {
             $foundArchivedPlaylists[] = $playlist;
         }
 
@@ -161,7 +161,7 @@ class PlaylistService
     public function findAllSelfCreatedPlaylists(): array
     {
         $foundSelfCreatedPlaylists = [];
-        foreach ($this->getAllUserPlaylists(true, false) as $playlist) {
+        foreach ($this->getUserPlaylists(selfCreated: true, archived: false) as $playlist) {
             $foundSelfCreatedPlaylists[] = $playlist;
         }
 

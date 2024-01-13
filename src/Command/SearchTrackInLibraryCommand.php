@@ -100,7 +100,7 @@ class SearchTrackInLibraryCommand extends Command
             $foundInPlaylists[] = 'Liked Songs';
         }
 
-        foreach ($this->playlistService->getAllUserPlaylists(true, !$skipArchived) as $playlist) {
+        foreach ($this->playlistService->getUserPlaylists(selfCreated: true, archived: !$skipArchived) as $playlist) {
             $tracks = $this->playlistService->getAllTracksFromPlaylist($playlist->id);
 
             foreach ($tracks as $track) {
