@@ -59,7 +59,7 @@ class DeleteArchivedPlaylistsCommand extends Command
         $section = $output->section();
         $io = new CustomStyle($input, $section);
 
-        // Switch 'ask' color to magenta
+        // Switch 'ask' color to red
         $oldOutputFormatterStyle = $io->getFormatter()->getStyle('info');
         $outputStyleRed = new OutputFormatterStyle('red');
         $io->getFormatter()->setStyle('info', $outputStyleRed);
@@ -77,6 +77,12 @@ class DeleteArchivedPlaylistsCommand extends Command
             return Command::SUCCESS;
         }
         $section->clear();
+
+        for ($i=10; $i >= 0; $i--) {
+            $io->write('<fg=red>Countdown: ' . $i . '</>');
+            sleep(1);
+            $section->clear();
+        }
 
         // ---
 
