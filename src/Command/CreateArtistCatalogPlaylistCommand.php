@@ -115,13 +115,13 @@ class CreateArtistCatalogPlaylistCommand extends Command
         $artistTracks = $this->artistService->getAllArtistTracks($artistId);
         $section->clear();
 
-        $artistTrackIds = [];
+        $artistTrackObjects = [];
         foreach ($artistTracks as $artistTrack) {
-            $artistTrackIds[] = $artistTrack['SpotifySimplifiedTrackObject']->id;
+            $artistTrackObjects[] = $artistTrack['SpotifySimplifiedTrackObject'];
         }
 
         $section->writeln('<fg=yellow>Add tracks to playlist...</>');
-        $this->playlistService->addTracksToPlaylist($playlistId, $artistTrackIds);
+        $this->playlistService->addTracksToPlaylist($playlistId, $artistTrackObjects);
         $section->clear();
 
         // ---
