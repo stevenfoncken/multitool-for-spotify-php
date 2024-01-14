@@ -128,8 +128,12 @@ class ArchiveCommand extends Command
 
         // Process CSV file
         if (file_exists($playlistIDsOrCsvArg) && pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) === 'csv') {
-            foreach ($progressBar->iterate(CsvHelper::getCsvData($playlistIDsOrCsvArg, ';')) as $csvRow) {
+            $csvData = CsvHelper::getCsvData($playlistIDsOrCsvArg, ';');
+            $progressBar->start(count($csvData));
+
+            foreach ($csvData as $csvRow) {
                 $progressBar->setMessage($csvRow['Playlist_Id'], 'playlist_id');
+                $progressBar->advance();
 
                 if (
                     $this->playlistService->archivePlaylist(
@@ -153,9 +157,11 @@ class ArchiveCommand extends Command
             if (str_contains($playlistIDsOrCsvArg, ',')) {
                 $inputPlaylistIds = \str_replace(' ', '', \str_getcsv($playlistIDsOrCsvArg));
             }
+            $progressBar->start(count($inputPlaylistIds));
 
-            foreach ($progressBar->iterate($inputPlaylistIds) as $playlistId) {
+            foreach ($inputPlaylistIds as $playlistId) {
                 $progressBar->setMessage($playlistId, 'playlist_id');
+                $progressBar->advance();
 
                 if (
                     $this->playlistService->archivePlaylist(
@@ -168,6 +174,7 @@ class ArchiveCommand extends Command
                 usleep(20000);
             }
         }
+        $progressBar->finish();
 
         // ---
 
