@@ -18,6 +18,8 @@ use SpotifyWebAPI\SpotifyWebAPI;
 use Intervention\Image\ImageManager;
 use SpotifyWebAPI\SpotifyWebAPIException;
 use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
+use StevenFoncken\MultiToolForSpotify\Entity\ArchivedPlaylist;
+use StevenFoncken\MultiToolForSpotify\Repository\ArchivedPlaylistRepository;
 
 /**
  * Service that handles various tasks related to Spotify playlists.
@@ -27,6 +29,11 @@ use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
  */
 class PlaylistService
 {
+    /**
+     * @var object[]
+     */
+    protected array $copiedPlaylistTracks = [];
+
     /**
      * @param SpotifyWebAPI   $spotifyApi
      * @param LoggerInterface $logger
@@ -211,8 +218,8 @@ class PlaylistService
         $this->checkIfPlaylistDescriptionSetCorrectly($newPlaylist, $newDescription);
 
         // Copy tracks to new playlist
-        $tracksFromOrigPlaylist = $this->getAllTracksFromPlaylist($origPlaylist->id, $tracksSortOrder);
-        $this->addTracksToPlaylist($newPlaylist->id, $tracksFromOrigPlaylist);
+        $this->copiedPlaylistTracks = $this->getAllTracksFromPlaylist($origPlaylist->id, $tracksSortOrder);
+        $this->addTracksToPlaylist($newPlaylist->id, $this->copiedPlaylistTracks);
 
         $this->updatePlaylistCoverImage($newPlaylist->id, $origPlaylist->images[0]->url);
 
@@ -255,7 +262,7 @@ class PlaylistService
             return false;
         }
 
-        if ($this->checkIfArchivedPlaylistChanged($origPlaylist->snapshot_id, $archivedPlaylists)) {
+        if ($this->checkIfArchivedPlaylistChanged($origPlaylist->id, $origPlaylist->snapshot_id, $archivedPlaylists)) {
             $dateTime = new \DateTime();
             $currentYear = $dateTime->format('o');
             $currentWeek = $dateTime->format('W');
@@ -288,6 +295,41 @@ class PlaylistService
                 $archivedPlaylistDescription,
                 $tracksSortOrder
             );
+
+            // ---------------------------------------------------------
+            try {
+                $pdo = new \PDO($_ENV['PDO_DSN']);//TODO env
+                $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+                //$stmt = $pdo->prepare(file_get_contents(__DIR__ . '/../../fixtures/database_schema.sql'));
+                //$stmt->execute();
+
+                $archivedPlaylistRepository = new ArchivedPlaylistRepository($pdo);
+
+                $archivedPlaylist = new ArchivedPlaylist();
+                $archivedPlaylist->setYear($currentYear);
+                $archivedPlaylist->setWeek($currentWeek);
+                $archivedPlaylist->setArchivedPlaylistId($playlistId);
+                $archivedPlaylist->setArchivedPlaylistNamePrefix($namePrefix);
+                $archivedPlaylist->setArchivedPlaylistNameSuffix($nameSuffix);
+                $archivedPlaylist->setArchivedPlaylistSortorder($tracksSortOrder);
+                $archivedPlaylist->setArchivedPlaylistTracks(
+                    json_encode($this->copiedPlaylistTracks, JSON_THROW_ON_ERROR)
+                );
+                $archivedPlaylist->setOrigPlaylistId($origPlaylist->id);
+                $archivedPlaylist->setOrigPlaylistOwner($origPlaylist->owner->display_name);
+                $archivedPlaylist->setOrigPlaylistSnapshotId($origPlaylist->snapshot_id);
+                $archivedPlaylist->setOrigPlaylistCover(
+                    ImageManager::gd()
+                        ->read(file_get_contents($origPlaylist->images[0]->url))->toJpeg(quality: 55)->toString()
+                );
+
+                $archivedPlaylistRepository->create($archivedPlaylist);
+
+            } catch (\PDOException $e) {
+                echo 'PDO error: ' . $e->getMessage();
+            }
+            // ---------------------------------------------------------
 
             $this->logger->info(
                 'archivePlaylist: Done',
@@ -374,30 +416,31 @@ class PlaylistService
      * Searches for the given snapshot_id in the description of all archived playlists to determine if the already
      * archived playlist changed in its current version.
      *
+     * @param string $origPlaylistId
      * @param string $origPlaylistSnapshotId
      * @param array  $archivedPlaylists
      *
      * @return bool
+     * @throws \Exception
      */
-    private function checkIfArchivedPlaylistChanged(string $origPlaylistSnapshotId, array $archivedPlaylists): bool
+    private function checkIfArchivedPlaylistChanged(string $origPlaylistId, string $origPlaylistSnapshotId, array $archivedPlaylists): bool
     {
-        $pattern = '/Orig. Snapshot ID: (.*)/';
+        try {
+            $pdo = new \PDO($_ENV['PDO_DSN']);//TODO env
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        foreach ($archivedPlaylists as $archivedPlaylist) {
-            if (
-                preg_match($pattern, $archivedPlaylist->description, $matches) &&
-                /* Snapshot ID*/ $matches[1] === $origPlaylistSnapshotId
-            ) {
-                $this->logger->info(
-                    'Archived playlist not changed to last archived version',
-                    [
-                        'snapshot_id_orig'              => $origPlaylistSnapshotId,
-                        'playlist_description_archived' => $archivedPlaylist->description,
-                    ]
-                );
+            $archivedPlaylistRepository = new ArchivedPlaylistRepository($pdo);
+        } catch (\PDOException $e) {
+            echo 'PDO error: ' . $e->getMessage();
+        }
 
-                return false;
-            }
+        if ($archivedPlaylistRepository->findOneBySnapshotId($origPlaylistSnapshotId) !== null) {
+            $this->logger->info(
+                'Archived playlist not changed to last archived version',
+                ['snapshot_id_orig' => $origPlaylistSnapshotId]
+            );
+
+            return false;
         }
 
         $this->logger->info(

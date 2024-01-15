@@ -114,7 +114,7 @@ class ArchiveCommand extends Command
 
         $section = $output->section();
         $section->writeln('<fg=yellow>Fetching all archived playlists...</>');
-        $archivedPlaylists = $this->playlistService->findAllArchivedPlaylists();
+        $archivedPlaylists = []/*$this->playlistService->findAllArchivedPlaylists()*/;//TODO
         $section->clear();
 
         // ---
