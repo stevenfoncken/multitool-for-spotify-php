@@ -39,6 +39,7 @@
         "ext-fileinfo": "*",
         "ext-zlib": "*",
         "ext-gd": "*",
+        "ext-pdo": "*",
         "intervention/image": "^3.2",
         "jwilsson/spotify-web-api-php": "^6.0",
         "monolog/monolog": "^3.5",
