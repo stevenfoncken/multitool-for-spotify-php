@@ -28,7 +28,7 @@ use Monolog\Logger;
 use Monolog\ErrorHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\UidProcessor;
-use Monolog\Formatter\JsonFormatter;
+//use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -45,7 +45,7 @@ use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Service\TrackService;
 use StevenFoncken\MultiToolForSpotify\Service\ArtistService;
 use StevenFoncken\MultiToolForSpotify\Service\MailService;
-use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
+//use StevenFoncken\MultiToolForSpotify\Monolog\Handler\ArchivedPlaylistsHandler;
 
 const LOG_DIR_PATH = __DIR__ . '/../var/log/';
 
@@ -89,16 +89,16 @@ $uidProcessor = new UidProcessor(16);
 $errorToConsoleHandler = new StreamHandler('php://stderr', Level::Error);
 
 $rotatingFileHandler = new RotatingFileHandler(LOG_DIR_PATH . 'mtfsp.log', 16, $logLevel);
-
+/*
 $archivedPlaylistsHandler = new ArchivedPlaylistsHandler(
         new StreamHandler(LOG_DIR_PATH . 'archived_playlists.log', $logLevel)
 );
 $archivedPlaylistsHandler->setFormatter(new JsonFormatter());
-
+*/
 file_put_contents(LAST_RUN_LOG_PATH, ''); // Clear last_run log
 $currentRunHandler = new StreamHandler(LAST_RUN_LOG_PATH, Level::Info);
 
-$logger = new Logger('mtfsp', [$errorToConsoleHandler, $rotatingFileHandler, $archivedPlaylistsHandler, $currentRunHandler], [$uidProcessor]);
+$logger = new Logger('mtfsp', [$errorToConsoleHandler, $rotatingFileHandler, /*$archivedPlaylistsHandler,*/ $currentRunHandler], [$uidProcessor]);
 ErrorHandler::register($logger);
 
 // ---
