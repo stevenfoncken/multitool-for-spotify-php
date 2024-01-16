@@ -129,7 +129,7 @@ class ArchiveCommand extends Command
         // Process CSV file
         if (file_exists($playlistIDsOrCsvArg) && pathinfo($playlistIDsOrCsvArg, PATHINFO_EXTENSION) === 'csv') {
             $csvData = CsvHelper::getCsvData($playlistIDsOrCsvArg, ';');
-            $progressBar->start(count($csvData));
+            $progressBar->setMaxSteps(count($csvData));
 
             foreach ($csvData as $csvRow) {
                 $progressBar->setMessage($csvRow['Playlist_Id'], 'playlist_id');
@@ -157,7 +157,7 @@ class ArchiveCommand extends Command
             if (str_contains($playlistIDsOrCsvArg, ',')) {
                 $inputPlaylistIds = \str_replace(' ', '', \str_getcsv($playlistIDsOrCsvArg));
             }
-            $progressBar->start(count($inputPlaylistIds));
+            $progressBar->setMaxSteps(count($inputPlaylistIds));
 
             foreach ($inputPlaylistIds as $playlistId) {
                 $progressBar->setMessage($playlistId, 'playlist_id');
