@@ -72,6 +72,11 @@ class ArchivedPlaylist
     /**
      * @var string
      */
+    private string $origPlaylistName = '';
+
+    /**
+     * @var string
+     */
     private string $origPlaylistSnapshotId = '';
 
     /**
@@ -282,6 +287,26 @@ class ArchivedPlaylist
     public function setOrigPlaylistOwner(string $origPlaylistOwner): ArchivedPlaylist
     {
         $this->origPlaylistOwner = $origPlaylistOwner;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrigPlaylistName(): string
+    {
+        return $this->origPlaylistName;
+    }
+
+    /**
+     * @param string $origPlaylistName
+     *
+     * @return $this
+     */
+    public function setOrigPlaylistName(string $origPlaylistName): ArchivedPlaylist
+    {
+        $this->origPlaylistName = $origPlaylistName;
 
         return $this;
     }

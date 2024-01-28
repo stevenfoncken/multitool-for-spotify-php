@@ -318,6 +318,7 @@ class PlaylistService
                 );
                 $archivedPlaylist->setOrigPlaylistId($origPlaylist->id);
                 $archivedPlaylist->setOrigPlaylistOwner($origPlaylist->owner->display_name);
+                $archivedPlaylist->setOrigPlaylistName($origPlaylist->name);
                 $archivedPlaylist->setOrigPlaylistSnapshotId($origPlaylist->snapshot_id);
                 $archivedPlaylist->setOrigPlaylistCover(
                     ImageManager::gd()
@@ -325,7 +326,6 @@ class PlaylistService
                 );
 
                 $archivedPlaylistRepository->create($archivedPlaylist);
-
             } catch (\PDOException $e) {
                 echo 'PDO error: ' . $e->getMessage();
             }

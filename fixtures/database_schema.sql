@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `archived_playlist`
     `archived_playlist_tracks` MEDIUMBLOB NOT NULL,
     `orig_playlist_id` VARCHAR(255) NOT NULL,
     `orig_playlist_owner` VARCHAR(255),
+    `orig_playlist_name` VARCHAR(255),
     `orig_playlist_snapshot_id` VARCHAR(255) NOT NULL,
     `orig_playlist_cover` MEDIUMBLOB NOT NULL,
     `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP

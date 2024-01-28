@@ -105,6 +105,7 @@ class ArchivedPlaylistRepository
                                 archived_playlist_tracks,
                                 orig_playlist_id,
                                 orig_playlist_owner,
+                                orig_playlist_name,
                                 orig_playlist_snapshot_id,
                                 orig_playlist_cover
                             )
@@ -119,6 +120,7 @@ class ArchivedPlaylistRepository
                                 :archived_playlist_tracks,
                                 :orig_playlist_id,
                                 :orig_playlist_owner,
+                                :orig_playlist_name,
                                 :orig_playlist_snapshot_id,
                                 :orig_playlist_cover
                             )
@@ -134,6 +136,7 @@ class ArchivedPlaylistRepository
         $stmt->bindValue(':archived_playlist_tracks', $archivedPlaylist->getArchivedPlaylistTracks(), \PDO::PARAM_STR);
         $stmt->bindValue(':orig_playlist_id', $archivedPlaylist->getOrigPlaylistId(), \PDO::PARAM_STR);
         $stmt->bindValue(':orig_playlist_owner', $archivedPlaylist->getOrigPlaylistOwner(), \PDO::PARAM_STR);
+        $stmt->bindValue(':orig_playlist_name', $archivedPlaylist->getOrigPlaylistName(), \PDO::PARAM_STR);
         $stmt->bindValue(':orig_playlist_snapshot_id', $archivedPlaylist->getOrigPlaylistSnapshotId(), \PDO::PARAM_STR);
         $stmt->bindValue(':orig_playlist_cover', $archivedPlaylist->getOrigPlaylistCover(), \PDO::PARAM_STR);
 
@@ -162,6 +165,7 @@ class ArchivedPlaylistRepository
         $archivedPlaylist->setArchivedPlaylistTracks($dbResult['archived_playlist_tracks']);
         $archivedPlaylist->setOrigPlaylistId($dbResult['orig_playlist_id']);
         $archivedPlaylist->setOrigPlaylistOwner($dbResult['orig_playlist_owner']);
+        $archivedPlaylist->setOrigPlaylistName($dbResult['orig_playlist_name']);
         $archivedPlaylist->setOrigPlaylistSnapshotId($dbResult['orig_playlist_snapshot_id']);
         $archivedPlaylist->setOrigPlaylistCover($dbResult['orig_playlist_cover']);
         $archivedPlaylist->setDatetime(new \DateTime($dbResult['datetime']));
