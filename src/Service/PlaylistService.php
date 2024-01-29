@@ -317,7 +317,7 @@ class PlaylistService
                     json_encode($this->copiedPlaylistTracks, JSON_THROW_ON_ERROR)
                 );
                 $archivedPlaylist->setOrigPlaylistId($origPlaylist->id);
-                $archivedPlaylist->setOrigPlaylistOwner($origPlaylist->owner->display_name);
+                $archivedPlaylist->setOrigPlaylistOwner(($origPlaylist->owner->display_name ?? 'n/a'));
                 $archivedPlaylist->setOrigPlaylistName($origPlaylist->name);
                 $archivedPlaylist->setOrigPlaylistSnapshotId($origPlaylist->snapshot_id);
                 $archivedPlaylist->setOrigPlaylistCover(
