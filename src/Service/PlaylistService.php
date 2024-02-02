@@ -472,8 +472,13 @@ class PlaylistService
             ]
         );
 
-        while ($playlistDescription === true || empty($playlistDescription) || html_entity_decode((string) $playlistDescription) !== $shouldDescription) {
+        while (
+            $playlistDescription === true ||
+            empty($playlistDescription) ||
+            html_entity_decode((string) $playlistDescription) !== $shouldDescription
+        ) {
             $this->spotifyApi->updatePlaylist($playlistId, ['description' => $shouldDescription]);
+            sleep(31);
             $playlistDescription = $this->getPlaylistMetadata($playlistId)->description;
             $this->logger->debug(
                 'checkIfPlaylistDescriptionSetCorrectly: Updated',
