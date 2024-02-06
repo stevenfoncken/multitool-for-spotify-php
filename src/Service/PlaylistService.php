@@ -367,6 +367,7 @@ class PlaylistService
 
         foreach ($trackChunks as $trackChunk) {
             $this->spotifyApi->addPlaylistTracks($playlistIdToBeAddedTo, $trackChunk);
+            sleep(3);
         }
     }
 
@@ -441,12 +442,12 @@ class PlaylistService
                 // If no exception thrown
                 break;
             } catch (SpotifyWebAPIException $e) {
-                $this->logger->error(
+                $this->logger->debug(
                     'updatePlaylistCoverImage: Caught SpotifyWebAPIException: ' . $e->getMessage(),
                     ['exception' => $e]
                 );
-                $this->logger->error('updatePlaylistCoverImage: Retrying', ['attempt' => ($retryCount + 1)]);
-                sleep(1);
+                $this->logger->debug('updatePlaylistCoverImage: Retrying', ['attempt' => ($retryCount + 1)]);
+                sleep(5);
             }
         }
     }
@@ -484,7 +485,6 @@ class PlaylistService
                 'checkIfPlaylistDescriptionSetCorrectly: Updated',
                 ['new_playlist_desc' => $playlistDescription]
             );
-            usleep(20000);
         }
 
         $this->logger->debug('checkIfPlaylistDescriptionSetCorrectly: Done');

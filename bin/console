@@ -199,7 +199,7 @@ $commandLoader = new FactoryCommandLoader(
 );
 
 $application = new Application('Multi-Tool for Spotify - Console Application', '0.2.0'); // --version
-$application->setCatchExceptions(false);
+$application->setCatchExceptions(true);
 $application->setCommandLoader($commandLoader);
 $application->run();
 
