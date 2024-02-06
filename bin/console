@@ -103,7 +103,7 @@ ErrorHandler::register($logger);
 
 // ---
 
-//Init SpotifyWebAPI
+// Init SpotifyWebAPI
 $spotifyRequest = new Request(
     [
         'curl_options' => [

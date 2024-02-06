@@ -421,11 +421,11 @@ class PlaylistService
         $this->logger->debug('updatePlaylistCoverImage: Start', ['playlist_id' => $playlistId]);
 
         $imageManager = ImageManager::gd();
+        $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
 
         for ($retryCount = 0; $retryCount < 6; $retryCount++) {
             try {
                 $origCoverImageData = file_get_contents($imagePath);
-                $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
                 $mimeType = $fileInfo->buffer($origCoverImageData);
 
                 switch ($mimeType) {
