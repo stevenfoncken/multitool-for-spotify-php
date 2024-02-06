@@ -409,6 +409,7 @@ class PlaylistService
 
         foreach ($trackChunks as $trackChunk) {
             $this->spotifyApi->addPlaylistTracks($playlistIdToBeAddedTo, $trackChunk);
+            sleep(3);
         }
     }
 
@@ -463,11 +464,11 @@ class PlaylistService
         $this->logger->debug('updatePlaylistCoverImage: Start', ['playlist_id' => $playlistId]);
 
         $imageManager = ImageManager::gd();
+        $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
 
         for ($retryCount = 0; $retryCount < 6; $retryCount++) {
             try {
                 $origCoverImageData = file_get_contents($imagePath);
-                $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
                 $mimeType = $fileInfo->buffer($origCoverImageData);
 
                 switch ($mimeType) {
@@ -484,12 +485,12 @@ class PlaylistService
                 // If no exception thrown
                 break;
             } catch (SpotifyWebAPIException $e) {
-                $this->logger->error(
+                $this->logger->debug(
                     'updatePlaylistCoverImage: Caught SpotifyWebAPIException: ' . $e->getMessage(),
                     ['exception' => $e]
                 );
-                $this->logger->error('updatePlaylistCoverImage: Retrying', ['attempt' => ($retryCount + 1)]);
-                sleep(1);
+                $this->logger->debug('updatePlaylistCoverImage: Retrying', ['attempt' => ($retryCount + 1)]);
+                sleep(5);
             }
         }
     }
@@ -515,14 +516,18 @@ class PlaylistService
             ]
         );
 
-        while ($playlistDescription === true || empty($playlistDescription)) {
+        while (
+            $playlistDescription === true ||
+            empty($playlistDescription) ||
+            html_entity_decode((string) $playlistDescription) !== $shouldDescription
+        ) {
             $this->spotifyApi->updatePlaylist($playlistId, ['description' => $shouldDescription]);
+            sleep(31);
             $playlistDescription = $this->getPlaylistMetadata($playlistId)->description;
             $this->logger->debug(
                 'checkIfPlaylistDescriptionSetCorrectly: Updated',
                 ['new_playlist_desc' => $playlistDescription]
             );
-            usleep(20000);
         }
 
         $this->logger->debug('checkIfPlaylistDescriptionSetCorrectly: Done');

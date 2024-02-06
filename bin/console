@@ -64,25 +64,25 @@ $dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
 $dotenv->required(
         [
-            'DEBUG_MODE',
+            'APP_DEBUG_MODE',
             'SPOTIFY_API_CLIENT_ID',
             'SPOTIFY_API_CLIENT_SECRET',
             'SPOTIFY_API_REDIRECT_URI',
             'MAILER_DSN',
-            'FROM_MAIL',
-            'TO_MAIL',
+            'MAILER_FROM',
+            'MAILER_TO',
         ]
 )->notEmpty();
-$dotenv->required('DEBUG_MODE')->isBoolean();
+$dotenv->required('APP_DEBUG_MODE')->isBoolean();
 
 // ---
 
-date_default_timezone_set($_ENV['TIMEZONE']);
+date_default_timezone_set($_ENV['APP_TIMEZONE']);
 
 // ---
 
 // Init monolog
-$logLevel = $_ENV['DEBUG_MODE'] === 'true' ? Level::Debug : Level::Info;
+$logLevel = $_ENV['APP_DEBUG_MODE'] === 'true' ? Level::Debug : Level::Info;
 
 $uidProcessor = new UidProcessor(16);
 
@@ -103,7 +103,7 @@ ErrorHandler::register($logger);
 
 // ---
 
-//Init SpotifyWebAPI
+// Init SpotifyWebAPI
 $spotifyRequest = new Request(
     [
         'curl_options' => [
@@ -156,8 +156,8 @@ $commandLoader = new FactoryCommandLoader(
                 new PlaylistService($spotifyApi, $logger->withName('playlist_service')),
                 new MailService(
                         $_ENV['MAILER_DSN'],
-                        $_ENV['FROM_MAIL'],
-                        $_ENV['TO_MAIL'],
+                        $_ENV['MAILER_FROM'],
+                        $_ENV['MAILER_TO'],
                         LAST_RUN_LOG_PATH,
                         $logger->withName('mail_service')
                 )
@@ -199,7 +199,7 @@ $commandLoader = new FactoryCommandLoader(
 );
 
 $application = new Application('Multi-Tool for Spotify - Console Application', '0.2.0'); // --version
-$application->setCatchExceptions(false);
+$application->setCatchExceptions(true);
 $application->setCommandLoader($commandLoader);
 $application->run();
 
