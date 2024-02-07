@@ -4,7 +4,7 @@
  * This file is part of the multitool-for-spotify-php project.
  * @see https://github.com/stevenfoncken/multitool-for-spotify-php
  *
- * @copyright 2023-present Steven Foncken <dev@stevenfoncken.de>
+ * @copyright 2023-present Steven Foncken <dev[at]stevenfoncken[dot]de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
  * Console command that deletes archived playlists.
  *
  * @since 0.2.0
- * @author Steven Foncken <dev@stevenfoncken.de>
+ * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(
     name: 'mtfsp:archive:delete-playlists',
