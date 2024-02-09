@@ -121,6 +121,8 @@ $spotifySession = new Session(
     $spotifyRequest
 );
 
+touch(ACCESS_TOKEN_PATH);
+touch(REFRESH_TOKEN_PATH);
 $accessToken = file_get_contents(ACCESS_TOKEN_PATH);
 $refreshToken = file_get_contents(REFRESH_TOKEN_PATH);
 
