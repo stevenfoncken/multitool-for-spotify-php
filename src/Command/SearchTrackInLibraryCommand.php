@@ -59,10 +59,10 @@ class SearchTrackInLibraryCommand extends Command
                 'Id of the track to search for'
             )
             ->addOption(
-                'skipArchived',
+                'withArchived',
                 null,
                 InputOption::VALUE_NONE,
-                'Skip archived playlists',
+                'Include archived playlists'
             );
     }
 
@@ -76,7 +76,7 @@ class SearchTrackInLibraryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $trackIdNeedle = (string) $input->getArgument('trackIdNeedle');
-        $skipArchived = (bool) $input->getOption('skipArchived');
+        $withArchived = (bool) $input->getOption('withArchived');
         $io = new CustomStyle($input, $output);
 
         // ---
@@ -87,7 +87,7 @@ class SearchTrackInLibraryCommand extends Command
 
         $io->magenta(
             sprintf(
-                'Search for track: %s by %s',
+                'Searching for track: %s by %s',
                 $trackName,
                 $trackArtists,
             )
@@ -100,7 +100,7 @@ class SearchTrackInLibraryCommand extends Command
             $foundInPlaylists[] = 'Liked Songs';
         }
 
-        foreach ($this->playlistService->getUserPlaylists(selfCreated: true, archived: !$skipArchived) as $playlist) {
+        foreach ($this->playlistService->getUserPlaylists(selfCreated: true, archived: $withArchived) as $playlist) {
             $tracks = $this->playlistService->getAllTracksFromPlaylist($playlist->id);
 
             foreach ($tracks as $track) {
