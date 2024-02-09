@@ -29,7 +29,7 @@ use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 
 /**
- * Console command that archive playlists based on passed playlist Ids.
+ * Console command that archive playlists based on passed playlist IDs.
  *
  * @since 0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
@@ -62,9 +62,9 @@ class ArchiveCommand extends Command
     {
         $this
             ->addArgument(
-                'playlistIDsOrCsv',
+                'playlistIDsOrCSV',
                 InputArgument::REQUIRED,
-                'Comma-separated playlist Ids or CSV (Playlist_Name_Prefix;Playlist_Name_Suffix;Playlist_Sort_Order;Playlist_Id;Tags)'
+                'Comma-separated playlist IDs or CSV (Playlist_Name_Prefix;Playlist_Name_Suffix;Playlist_Sort_Order;Playlist_Id;Tags)'
             )
             ->addOption(
                 'mail',
@@ -93,7 +93,7 @@ class ArchiveCommand extends Command
 
         // ---
 
-        $playlistIDsOrCsvArg = (string) $input->getArgument('playlistIDsOrCsv');
+        $playlistIDsOrCsvArg = (string) $input->getArgument('playlistIDsOrCSV');
         $mailLastRunLogs = (bool) $input->getOption('mail');
         $io = new CustomStyle($input, $output);
 

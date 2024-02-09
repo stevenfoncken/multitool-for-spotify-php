@@ -39,7 +39,7 @@ class PlaylistService
 
     /**
      * @param string      $playlistId
-     * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP).
+     * @param string|null $sortOrder  desc => recent added tracks at top, asc => oldest added tracks at top.
      *
      * @return object[]
      * @throws \Exception
