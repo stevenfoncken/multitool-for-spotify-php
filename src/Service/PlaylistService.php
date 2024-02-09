@@ -233,8 +233,8 @@ class PlaylistService
     /**
      * @param string      $playlistId
      * @param array       $archivedPlaylists
-     * @param string      $namePrefix
-     * @param string      $nameSuffix
+     * @param string|null $namePrefix
+     * @param string|null $nameSuffix
      * @param string|null $tracksSortOrder
      *
      * @return bool
@@ -243,8 +243,8 @@ class PlaylistService
     public function archivePlaylist(
         string $playlistId,
         array $archivedPlaylists,
-        string $namePrefix = 'ARCHIVE',
-        string $nameSuffix = '',
+        ?string $namePrefix = null,
+        ?string $nameSuffix = null,
         ?string $tracksSortOrder = null
     ): bool {
         $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
@@ -261,7 +261,9 @@ class PlaylistService
             $currentWeek = $dateTime->format('W');
             $currentDate = $dateTime->format('d.m.Y H:i:s');
 
-            $nameSuffix = (($nameSuffix !== '') ? $nameSuffix : $origPlaylist->name);
+            $namePrefix = (empty($namePrefix) ? 'ARCHIVE' : $namePrefix);
+            $nameSuffix = (empty($nameSuffix) ? $origPlaylist->name : $nameSuffix);
+
             // PREFIX-YYYY-WW-SUFFIX or PLAYLIST_NAME
             $archivedPlaylistName = sprintf(
                 '%s-%s-%s-%s',
