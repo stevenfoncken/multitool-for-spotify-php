@@ -90,7 +90,7 @@ class AuthCommand extends Command
      */
     private static function generateCallbackUrlQuestion(): Question
     {
-        $question = new Question('Please paste the callback URL here');
+        $question = new Question('Please paste the new address bar (callback) URL here');
         $validator = Validation::createValidator();
 
         $question->setValidator(static function ($answer) use ($validator): string {
