@@ -4,7 +4,7 @@
  * This file is part of the multitool-for-spotify-php project.
  * @see https://github.com/stevenfoncken/multitool-for-spotify-php
  *
- * @copyright 2023-present Steven Foncken <dev@stevenfoncken.de>
+ * @copyright 2023-present Steven Foncken <dev[at]stevenfoncken[dot]de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,7 +31,7 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
  * Console command that handles the Spotify OAuth process & API token generation.
  *
  * @since 0.2.0
- * @author Steven Foncken <dev@stevenfoncken.de>
+ * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(
     name: 'mtfsp:auth',
@@ -90,7 +90,7 @@ class AuthCommand extends Command
      */
     private static function generateCallbackUrlQuestion(): Question
     {
-        $question = new Question('Please paste the callback URL here');
+        $question = new Question('Please paste the new address bar (callback) URL here');
         $validator = Validation::createValidator();
 
         $question->setValidator(static function ($answer) use ($validator): string {

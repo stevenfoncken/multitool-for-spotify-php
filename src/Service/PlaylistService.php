@@ -4,7 +4,7 @@
  * This file is part of the multitool-for-spotify-php project.
  * @see https://github.com/stevenfoncken/multitool-for-spotify-php
  *
- * @copyright 2023-present Steven Foncken <dev@stevenfoncken.de>
+ * @copyright 2023-present Steven Foncken <dev[at]stevenfoncken[dot]de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ use StevenFoncken\MultiToolForSpotify\Repository\ArchivedPlaylistRepository;
  * Service that handles various tasks related to Spotify playlists.
  *
  * @since 0.2.0
- * @author Steven Foncken <dev@stevenfoncken.de>
+ * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class PlaylistService
 {
@@ -46,7 +46,7 @@ class PlaylistService
 
     /**
      * @param string      $playlistId
-     * @param string|null $sortOrder  "desc" (newest at TOP) or "asc" (oldest at TOP).
+     * @param string|null $sortOrder  desc => recent added tracks at top, asc => oldest added tracks at top.
      *
      * @return object[]
      * @throws \Exception
@@ -240,8 +240,8 @@ class PlaylistService
     /**
      * @param string      $playlistId
      * @param array       $archivedPlaylists
-     * @param string      $namePrefix
-     * @param string      $nameSuffix
+     * @param string|null $namePrefix
+     * @param string|null $nameSuffix
      * @param string|null $tracksSortOrder
      *
      * @return bool
@@ -250,8 +250,8 @@ class PlaylistService
     public function archivePlaylist(
         string $playlistId,
         array $archivedPlaylists,
-        string $namePrefix = 'ARCHIVE',
-        string $nameSuffix = '',
+        ?string $namePrefix = null,
+        ?string $nameSuffix = null,
         ?string $tracksSortOrder = null
     ): bool {
         $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
@@ -268,7 +268,9 @@ class PlaylistService
             $currentWeek = $dateTime->format('W');
             $currentDate = $dateTime->format('d.m.Y H:i:s');
 
-            $nameSuffix = (($nameSuffix !== '') ? $nameSuffix : $origPlaylist->name);
+            $namePrefix = (empty($namePrefix) ? 'ARCHIVE' : $namePrefix);
+            $nameSuffix = (empty($nameSuffix) ? $origPlaylist->name : $nameSuffix);
+
             // PREFIX-YYYY-WW-SUFFIX or PLAYLIST_NAME
             $archivedPlaylistName = sprintf(
                 '%s-%s-%s-%s',
