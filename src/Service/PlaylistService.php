@@ -180,7 +180,7 @@ class PlaylistService
      * @param bool        $public
      * @param string|null $newName
      * @param string|null $newDescription
-     * @param string|null $tracksSortOrder
+     * @param string      $tracksSortOrder
      *
      * @return string new playlist id.
      * @throws \Exception
@@ -191,7 +191,7 @@ class PlaylistService
         bool $public = false,
         ?string $newName = null,
         ?string $newDescription = null,
-        ?string $tracksSortOrder = null
+        string $tracksSortOrder = ''
     ): string {
         $this->logger->debug('copyPlaylist: Start', ['playlist_id_orig' => $origPlaylistId]);
 
@@ -242,17 +242,17 @@ class PlaylistService
      * @param array       $archivedPlaylists
      * @param string|null $namePrefix
      * @param string|null $nameSuffix
-     * @param string|null $tracksSortOrder
+     * @param string      $tracksSortOrder
      *
      * @return bool
-     * @throws \Exception
+     * @throws \JsonException
      */
     public function archivePlaylist(
         string $playlistId,
         array $archivedPlaylists,
         ?string $namePrefix = null,
         ?string $nameSuffix = null,
-        ?string $tracksSortOrder = null
+        string $tracksSortOrder = ''
     ): bool {
         $this->logger->debug('archivePlaylist: Start', ['playlist_id_orig' => $playlistId]);
 
