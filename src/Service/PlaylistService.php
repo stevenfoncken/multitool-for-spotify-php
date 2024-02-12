@@ -311,7 +311,7 @@ class PlaylistService
                 $archivedPlaylist = new ArchivedPlaylist();
                 $archivedPlaylist->setYear($currentYear);
                 $archivedPlaylist->setWeek($currentWeek);
-                $archivedPlaylist->setArchivedPlaylistId($playlistId);
+                $archivedPlaylist->setArchivedPlaylistId($newArchivedPlaylistId);
                 $archivedPlaylist->setArchivedPlaylistNamePrefix($namePrefix);
                 $archivedPlaylist->setArchivedPlaylistNameSuffix($nameSuffix);
                 $archivedPlaylist->setArchivedPlaylistSortorder($tracksSortOrder);
