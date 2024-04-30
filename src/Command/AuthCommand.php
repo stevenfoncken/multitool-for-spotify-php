@@ -30,7 +30,7 @@ use StevenFoncken\MultiToolForSpotify\Validator\UrlContainsQueryParameter;
 /**
  * Console command that handles the Spotify OAuth process & API token generation.
  *
- * @since 0.2.0
+ * @since v0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(

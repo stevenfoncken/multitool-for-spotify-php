@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * Constraint (rule) for URL query parameters.
  *
- * @since 0.2.0
+ * @since v0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class UrlContainsQueryParameter extends Constraint

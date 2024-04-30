@@ -26,7 +26,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that deletes archived playlists.
  *
- * @since 0.2.0
+ * @since v0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(

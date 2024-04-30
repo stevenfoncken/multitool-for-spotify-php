@@ -20,7 +20,7 @@ use Monolog\Handler\HandlerWrapper;
  * HandlerWrapper that adds custom filtering so that only archive playlist creation is logged.
  * It can be applied to other handlers e.g. StreamHandler.
  *
- * @since 0.2.0
+ * @since v0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class ArchivedPlaylistsHandler extends HandlerWrapper

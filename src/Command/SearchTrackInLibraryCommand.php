@@ -27,7 +27,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that searches for a given track (id) in all user-generated playlists (library).
  *
- * @since 0.2.0
+ * @since v0.2.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(
