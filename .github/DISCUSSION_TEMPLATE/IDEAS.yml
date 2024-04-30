@@ -37,4 +37,4 @@ body:
       label: Would you like to implement the feature yourself?
       options:
         - label: Yes.
-          required: true
+          required: false
