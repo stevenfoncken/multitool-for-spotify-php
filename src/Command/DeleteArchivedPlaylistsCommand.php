@@ -78,7 +78,7 @@ class DeleteArchivedPlaylistsCommand extends Command
         }
         $section->clear();
 
-        for ($i=10; $i >= 0; $i--) {
+        for ($i = 10; $i >= 0; $i--) {
             $io->write('<fg=red>Countdown: ' . $i . '</>');
             sleep(1);
             $section->clear();
