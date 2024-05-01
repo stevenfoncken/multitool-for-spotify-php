@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Custom style for console commands.
  *
- * @since v0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class CustomStyle extends SymfonyStyle
