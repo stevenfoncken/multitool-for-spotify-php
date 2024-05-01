@@ -24,7 +24,7 @@ use StevenFoncken\MultiToolForSpotify\Repository\ArchivedPlaylistRepository;
 /**
  * Service that handles various tasks related to Spotify playlists.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class PlaylistService

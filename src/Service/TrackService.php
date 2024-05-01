@@ -20,7 +20,7 @@ use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
 /**
  * Service that handles various tasks related to Spotify tracks.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class TrackService

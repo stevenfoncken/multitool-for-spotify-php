@@ -26,7 +26,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that deletes archived playlists.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(
@@ -78,7 +78,7 @@ class DeleteArchivedPlaylistsCommand extends Command
         }
         $section->clear();
 
-        for ($i=10; $i >= 0; $i--) {
+        for ($i = 10; $i >= 0; $i--) {
             $io->write('<fg=red>Countdown: ' . $i . '</>');
             sleep(1);
             $section->clear();

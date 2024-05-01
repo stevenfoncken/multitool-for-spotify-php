@@ -18,7 +18,7 @@ use SpotifyWebAPI\SpotifyWebAPI;
 /**
  * Helpers for the SpotifyWebAPI.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class SpotifyApiHelper

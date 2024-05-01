@@ -21,7 +21,7 @@ use Symfony\Component\Mailer\Transport;
 /**
  * Service that handles mailing.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class MailService

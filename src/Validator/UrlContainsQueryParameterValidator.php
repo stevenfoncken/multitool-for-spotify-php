@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 /**
  * Validator for the UrlContainsQueryParameter constraint.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class UrlContainsQueryParameterValidator extends ConstraintValidator

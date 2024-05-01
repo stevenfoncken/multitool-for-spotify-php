@@ -27,7 +27,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that copies a given artist's catalog into a new or given playlist.
  *
- * @since 0.2.0
+ * @since v1.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(
