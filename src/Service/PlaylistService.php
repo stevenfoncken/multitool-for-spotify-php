@@ -384,13 +384,10 @@ class PlaylistService
      */
     private function checkIfArchivedPlaylistChanged(string $origPlaylistSnapshotId, array $archivedPlaylists): bool
     {
-        $pattern = '/Orig. Snapshot ID: (.*)/';
+        $needle = 'Orig. Snapshot ID: ' . $origPlaylistSnapshotId;
 
         foreach ($archivedPlaylists as $archivedPlaylist) {
-            if (
-                preg_match($pattern, $archivedPlaylist->description, $matches) &&
-                /* Snapshot ID*/ $matches[1] === $origPlaylistSnapshotId
-            ) {
+            if (strpos(html_entity_decode((string) $archivedPlaylist->description), $needle) !== false) {
                 $this->logger->info(
                     'Archived playlist not changed to last archived version',
                     [
