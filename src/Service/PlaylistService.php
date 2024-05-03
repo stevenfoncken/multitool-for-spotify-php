@@ -103,7 +103,7 @@ class PlaylistService
         bool $selfCreated = true,
         bool $archived = true
     ): iterable {
-        $archivedPlaylistDescriptionPattern = '/Archive Playlist: (.*?) \| Orig. Playlist Name: (.*?) \| Orig. Playlist Owner: (.*?) \| Orig. Playlist ID: (.*?) \| Orig. Snapshot ID: (.*?)/';
+        $archivedPlaylistDescriptionPattern = '/^Archive Playlist: (.*?) \| Orig\. Playlist Name: (.*?) \| Orig\. Playlist Owner: (.*?) \| Orig\. Playlist ID: (.*?) \| Orig\. Snapshot ID: (.*?)$/';
         $userId = $this->spotifyApi->me()->id;
         $apiOptions = ['limit' => 50];
 
