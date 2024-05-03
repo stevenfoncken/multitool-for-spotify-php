@@ -303,9 +303,6 @@ class PlaylistService
                 $pdo = new \PDO($_ENV['PDO_DSN']);//TODO env
                 $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-                //$stmt = $pdo->prepare(file_get_contents(__DIR__ . '/../../fixtures/database_schema.sql'));
-                //$stmt->execute();
-
                 $archivedPlaylistRepository = new ArchivedPlaylistRepository($pdo);
 
                 $archivedPlaylist = new ArchivedPlaylist();
