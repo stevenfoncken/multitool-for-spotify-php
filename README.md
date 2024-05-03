@@ -230,7 +230,7 @@ The project is built using the [Symfony Console](https://github.com/symfony/cons
 ## ✨ Future features
 - Archiving: retrieve source playlists from dedicated Spotify playlist folder.
 - MyWeeklySelection: command that creates a public profile playlist with the last 30 liked songs with custom playlist image.
-- Archiving: add Spotify agnostic storage, see [feature/add-database](/stevenfoncken/multitool-for-spotify-php/tree/feature/add-database).
+- Archiving: add Spotify agnostic storage, see [feature/add-database](https://github.com/stevenfoncken/multitool-for-spotify-php/tree/feature/add-database).
 - Everything that comes to my mind while I'm showering ;-)
 
 
@@ -313,7 +313,7 @@ All trademarks are the property of their respective owners.
 
 This is an independent project that utilizes "Spotify"s Web API to perform various tasks in the personal account.
 
-Before taking legal action, please contact this address: \<dev[at]stevenfoncken[dot]de\>
+Before taking legal action, please contact this address: dev[at]stevenfoncken[dot]de
 
 Use at your own risk.
 
