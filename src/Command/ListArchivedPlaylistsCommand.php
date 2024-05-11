@@ -24,7 +24,7 @@ use StevenFoncken\MultiToolForSpotify\Console\Style\CustomStyle;
 /**
  * Console command that lists archived playlists.
  *
- * @since v1.0.0
+ * @since v2.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(

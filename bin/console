@@ -63,15 +63,15 @@ const LAST_RUN_LOG_PATH = LOG_DIR_PATH . 'last_run.log';
 $dotenv = Dotenv::createImmutable(CONFIG_DIR_PATH);
 $dotenv->load();
 $dotenv->required(
-        [
-            'APP_DEBUG_MODE',
-            'SPOTIFY_API_CLIENT_ID',
-            'SPOTIFY_API_CLIENT_SECRET',
-            'SPOTIFY_API_REDIRECT_URI',
-            'MAILER_DSN',
-            'MAILER_FROM',
-            'MAILER_TO',
-        ]
+    [
+        'APP_DEBUG_MODE',
+        'SPOTIFY_API_CLIENT_ID',
+        'SPOTIFY_API_CLIENT_SECRET',
+        'SPOTIFY_API_REDIRECT_URI',
+        'MAILER_DSN',
+        'MAILER_FROM',
+        'MAILER_TO',
+    ]
 )->notEmpty();
 $dotenv->required('APP_DEBUG_MODE')->isBoolean();
 

@@ -26,7 +26,7 @@ use StevenFoncken\MultiToolForSpotify\Service\PlaylistService;
 /**
  * Playground console command.
  *
- * @since v1.0.0
+ * @since v2.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 #[AsCommand(

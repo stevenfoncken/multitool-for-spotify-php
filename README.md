@@ -30,24 +30,24 @@ and sprinkle some structured overhead on top ;-)
 
 - [📖 Table of Contents](#-table-of-contents)
 - [⛓ Features](#-features)
-- [🚀 Getting started](#-getting-started)
+- [🚀 Getting Started](#-getting-started)
     - [Requirements](#requirements)
     - [Installation](#installation)
-        - [Clone or download the project](#clone-or-download-the-project)
-        - [Install dependencies via Composer](#install-dependencies-via-composer)
+        - [Download or Clone the Project](#download-or-clone-the-project)
+        - [Install Dependencies via Composer](#install-dependencies-via-composer)
     - [Config](#config)
         - [.env](#env)
         - [Connecting to Spotify's Web API](#connecting-to-spotifys-web-api)
     - [Usage](#usage)
-        - [Playlist archiving](#playlist-archiving)
-        - [List archived playlists](#list-archived-playlists)
-        - [Delete archived playlists](#delete-archived-playlists)
-        - [Create artist catalog playlist](#create-artist-catalog-playlist)
-        - [Search library playlists for a given track](#search-library-playlists-for-a-given-track)
+        - [Playlist Archiving](#playlist-archiving)
+        - [List Archived Playlists](#list-archived-playlists)
+        - [Delete Archived Playlists](#delete-archived-playlists)
+        - [Create Artist Catalog Playlist](#create-artist-catalog-playlist)
+        - [Search Library Playlists for a Given Track](#search-library-playlists-for-a-given-track)
 - [🔨 Development](#-development)
     - [Tech Stack](#tech-stack)
 - [☑️ TODOs](#%EF%B8%8F-todos)
-- [✨ Future features](#-future-features)
+- [✨ Future Features](#-future-features)
 - [Changelog](#changelog)
 - [Help & Questions](#help--questions)
 - [Contributing](#contributing)
@@ -63,10 +63,10 @@ and sprinkle some structured overhead on top ;-)
 - Archive playlists from CSV or argument input with special naming syntax and mailing.
 - Search library playlists for a given track.
 - Create playlists with complete artist catalogs.
-- see: [✨ Future features](#-future-features).
+- see: [✨ Future Features](#-future-features).
 
 
-## 🚀 Getting started
+## 🚀 Getting Started
 
 ### Requirements
 - php >= 8.2
@@ -74,7 +74,7 @@ and sprinkle some structured overhead on top ;-)
 
 ### Installation
 
-#### Clone or download the project
+#### Download or Clone the Project
 
 ```shell
 composer create-project stevenfoncken/multitool-for-spotify-php
@@ -84,15 +84,15 @@ or
 git clone --depth 1 https://github.com/stevenfoncken/multitool-for-spotify-php.git
 ```
 
+Now `cd` into the project directory.
+
 ---
 
-#### Install dependencies via Composer
+#### Install Dependencies via Composer
 
 Skip when create-project was used.
 
 ```shell
-cd multitool-for-spotify-php/
-
 composer install
 ```
 
@@ -137,9 +137,11 @@ SPOTIFY_API_CLIENT_SECRET="15g2fh52qg1631j1hex4sg167164c1a6"
 
 Now you are ready to use `multitool-for-spotify-php` 🎉
 
+---
+
 ### Usage
 
-#### Playlist archiving
+#### Playlist Archiving
 
 ```shell
 php bin/console mtfsp:archive [--mail] <playlistIDsOrCSV>
@@ -168,7 +170,7 @@ Single or comma-separated spotify playlist ID(s).
 | Playlist_Id          | The ID of the spotify playlist.                                                                                 | Yes      |
 | Tags                 | For personal use.                                                                                               | No       |
 
-The CSV must be separated by semicolons. Example: [playlists-to-archive.csv.dist](config/playlists-to-archive.csv.dist)
+The CSV must be separated by semicolons. Example: [playlists-to-archive.dist.csv](config/playlists-to-archive.dist.csv)
 
 **Option for mailing:**
 
@@ -179,7 +181,7 @@ This is particularly useful when using a CronJob.
 
 ---
 
-#### List archived playlists
+#### List Archived Playlists
 
 ```shell
 php bin/console mtfsp:archive:list-playlists
@@ -187,7 +189,7 @@ php bin/console mtfsp:archive:list-playlists
 
 ---
 
-#### Delete archived playlists
+#### Delete Archived Playlists
 
 ```shell
 php bin/console mtfsp:archive:delete-playlists
@@ -197,7 +199,7 @@ But multiple "are you sure" checks will protect you from hasty mistakes ;-)
 
 ---
 
-#### Create artist catalog playlist
+#### Create Artist Catalog Playlist
 
 ```shell
 php bin/console mtfsp:artist:catalog-to-playlist <artistId> [<playlistId>]
@@ -207,7 +209,7 @@ If you specify a playlist ID, the catalog will be added to this playlist, otherw
 
 ---
 
-#### Search library playlists for a given track
+#### Search Library Playlists for a Given Track
 
 ```shell
 php bin/console mtfsp:search:track-in-library [--withArchived] <trackIdNeedle>
@@ -227,7 +229,7 @@ The project is built using the [Symfony Console](https://github.com/symfony/cons
 - [ ] Add unit tests
 
 
-## ✨ Future features
+## ✨ Future Features
 - Archiving: retrieve source playlists from dedicated Spotify playlist folder.
 - MyWeeklySelection: command that creates a public profile playlist with the last 30 liked songs with custom playlist image.
 - Archiving: add Spotify agnostic storage, see [feature/add-database](https://github.com/stevenfoncken/multitool-for-spotify-php/tree/feature/add-database).
@@ -307,7 +309,7 @@ Everything helps, thanks! 🙏
 
 "Spotify" is a registered trademark of "Spotify AB" and/or its (worldwide) subsidiaries.
 
-This project or its author is in **no way** officially connected to, affiliated with, associated with, authorized by, built by, endorsed by, maintained by, promoted by, or sponsored by "Spotify AB" or any of its affiliates, licensors, (worldwide) subsidiaries, or other entities under its control.
+This project or its author is in **no way** officially connected to, affiliated with, associated with, authorized by, built by, endorsed by, licensed by, maintained by, promoted by, or sponsored by "Spotify AB" or any of its affiliates, licensors, (worldwide) subsidiaries, or other entities under its control.
 
 All trademarks are the property of their respective owners.
 

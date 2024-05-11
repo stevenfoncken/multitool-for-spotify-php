@@ -20,7 +20,7 @@ use StevenFoncken\MultiToolForSpotify\Helper\SpotifyApiHelper;
 /**
  * Service that handles various tasks related to Spotify artists.
  *
- * @since v1.0.0
+ * @since v2.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class ArtistService
