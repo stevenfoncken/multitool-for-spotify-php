@@ -18,7 +18,7 @@ use ParseCsv\Csv;
 /**
  * Helpers for handling CSV files.
  *
- * @since v1.0.0
+ * @since v2.0.0
  * @author Steven Foncken <dev[at]stevenfoncken[dot]de>
  */
 class CsvHelper

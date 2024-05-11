@@ -77,7 +77,6 @@ class SpotifyApiHelper
             }
 
             if (isset($apiResult->next)) {
-                //break; //TODO debug
                 $options['offset'] = self::getOffsetFromNext($apiResult->next);
             } else {
                 break;
