@@ -437,7 +437,10 @@ class PlaylistService
         if ($archivedPlaylistRepository->findOneBySnapshotId($origPlaylistSnapshotId) !== null) {
             $this->logger->info(
                 'Archived playlist not changed to last archived version',
-                ['snapshot_id_orig' => $origPlaylistSnapshotId]
+                [
+                    'snapshot_id_orig' => $origPlaylistSnapshotId,
+                    'playlist_id_orig' => $origPlaylistId,
+                ]
             );
 
             return false;
