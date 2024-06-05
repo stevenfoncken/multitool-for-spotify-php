@@ -326,6 +326,6 @@ Use at your own risk.
 
 See [LICENSE](./LICENSE) for details.
 
-Copyright (c) 2023-present [Steven Foncken](https://github.com/stevenfoncken) \<dev[at]stevenfoncken[dot]de\>
+Copyright (c) 2020-present [Steven Foncken](https://github.com/stevenfoncken) \<dev[at]stevenfoncken[dot]de\>
 
 <p align="right">^ <a href="#multi-tool-for-spotify">back to top</a> ^</p>
