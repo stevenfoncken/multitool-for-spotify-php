@@ -6,9 +6,9 @@
 ·
 [Ask a Question](https://github.com/stevenfoncken/multitool-for-spotify-php/discussions/new/choose)
 
-![version: 2.0.0](https://img.shields.io/badge/version-2.0.0-green.svg?style=for-the-badge)
-[![Minimum PHP Version: 8.2](http://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg?style=for-the-badge)](https://php.net/)
-[![PHP-FIG](https://img.shields.io/badge/PHP--FIG-PSR--12-brightgreen.svg?style=for-the-badge)](https://www.php-fig.org/psr/psr-12/)
+![version: 2.0.2](https://img.shields.io/badge/version-2.0.2-green.svg?style=for-the-badge)
+[![Minimum PHP Version: 8.2](http://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg?style=for-the-badge)](https://php.net)
+[![PHP-FIG](https://img.shields.io/badge/PHP--FIG-PSR--12-brightgreen.svg?style=for-the-badge)](https://www.php-fig.org/psr/psr-12)
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=for-the-badge)](https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/stevenfoncken/multitool-for-spotify-php.svg?style=for-the-badge)](https://packagist.org/packages/stevenfoncken/multitool-for-spotify-php)
 

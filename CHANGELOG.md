@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.0.2 (2024-06-05)
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Code style
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
+
 ## 2.0.1 (2024-05-12)
 ### Added
 - Nothing
