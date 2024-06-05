@@ -12,7 +12,8 @@
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=for-the-badge)](https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/stevenfoncken/multitool-for-spotify-php.svg?style=for-the-badge)](https://packagist.org/packages/stevenfoncken/multitool-for-spotify-php)
 
-A handy command-line application for archiving playlists, searching your library for tracks or creating playlists with complete artist catalogs.
+A handy command-line application for archiving playlists, searching your library for tracks, or creating playlists with complete artist catalogs.
+
 
 ### [🤔 Why?](https://www.youtube.com/watch?v=zTDeEJyCmNA&t=39s)
 
@@ -106,7 +107,7 @@ composer install
 cp config/.env.dist config/.env
 ```
 
-Set your timezone in `APP_TIMEZONE`.
+Set your timezone in `APP_TIMEZONE` - [List of Supported Timezones](https://www.php.net/manual/en/timezones.php).
 
 ---
 
