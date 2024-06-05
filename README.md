@@ -6,13 +6,14 @@
 ·
 [Ask a Question](https://github.com/stevenfoncken/multitool-for-spotify-php/discussions/new/choose)
 
-![version: 2.0.0](https://img.shields.io/badge/version-2.0.0-green.svg?style=for-the-badge)
-[![Minimum PHP Version: 8.2](http://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg?style=for-the-badge)](https://php.net/)
-[![PHP-FIG](https://img.shields.io/badge/PHP--FIG-PSR--12-brightgreen.svg?style=for-the-badge)](https://www.php-fig.org/psr/psr-12/)
+![version: 2.0.2](https://img.shields.io/badge/version-2.0.2-green.svg?style=for-the-badge)
+[![Minimum PHP Version: 8.2](http://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg?style=for-the-badge)](https://php.net)
+[![PHP-FIG](https://img.shields.io/badge/PHP--FIG-PSR--12-brightgreen.svg?style=for-the-badge)](https://www.php-fig.org/psr/psr-12)
 [![license: MIT](https://img.shields.io/badge/license-MIT-yellow.svg?style=for-the-badge)](https://github.com/stevenfoncken/multitool-for-spotify-php/blob/master/LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/stevenfoncken/multitool-for-spotify-php.svg?style=for-the-badge)](https://packagist.org/packages/stevenfoncken/multitool-for-spotify-php)
 
-A handy command-line application for archiving playlists, searching your library for tracks or creating playlists with complete artist catalogs.
+A handy command-line application for archiving playlists, searching your library for tracks, or creating playlists with complete artist catalogs.
+
 
 ### [🤔 Why?](https://www.youtube.com/watch?v=zTDeEJyCmNA&t=39s)
 
@@ -106,7 +107,7 @@ composer install
 cp config/.env.dist config/.env
 ```
 
-Set your timezone in `APP_TIMEZONE`.
+Set your timezone in `APP_TIMEZONE` - [List of Supported Timezones](https://www.php.net/manual/en/timezones.php).
 
 ---
 
@@ -326,6 +327,6 @@ Use at your own risk.
 
 See [LICENSE](./LICENSE) for details.
 
-Copyright (c) 2023-present [Steven Foncken](https://github.com/stevenfoncken) \<dev[at]stevenfoncken[dot]de\>
+Copyright (c) 2020-present [Steven Foncken](https://github.com/stevenfoncken) \<dev[at]stevenfoncken[dot]de\>
 
 <p align="right">^ <a href="#multi-tool-for-spotify">back to top</a> ^</p>
